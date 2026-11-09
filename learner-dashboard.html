@@ -1,0 +1,2550 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAIS | Learner Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --blue: #2469e8;
+    --dark: #172d55;
+    --muted: #8794aa;
+    --bg: #f5f7fc;
+    --border: #e9edf5;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+}
+
+button, input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 245px;
+    background: white;
+    border-right: 1px solid var(--border);
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    padding: 26px 18px;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    overflow-y: auto;
+}
+
+.logo {
+    padding: 0 10px 30px;
+}
+
+.logo img {
+    width: 130px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.nav-label {
+    font-size: 9px;
+    font-weight: 800;
+    color: #a0aabd;
+    letter-spacing: 1.5px;
+    padding: 12px 12px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #78869d;
+    text-decoration: none;
+    margin-bottom: 5px;
+    transition: .2s;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: #edf3ff;
+    color: var(--blue);
+}
+
+.nav-icon {
+    font-size: 17px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-count {
+    margin-left: auto;
+    background: #edf3ff;
+    color: var(--blue);
+    padding: 3px 7px;
+    border-radius: 20px;
+    font-size: 9px;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.help-card {
+    background: linear-gradient(140deg,#1754c4,#4085f3);
+    color: white;
+    border-radius: 14px;
+    padding: 17px;
+    margin: 15px 3px;
+}
+
+.help-card h4 {
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.help-card p {
+    font-size: 10px;
+    line-height: 1.7;
+    color: #dceaff;
+}
+
+.help-card a {
+    display: inline-block;
+    margin-top: 12px;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    padding: 27px 35px 50px;
+    max-width: 1800px;
+}
+
+/* TOPBAR */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 15px;
+}
+
+.breadcrumb {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.breadcrumb strong {
+    color: var(--dark);
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.search-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 11px 14px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 230px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 11px;
+}
+
+.icon-button {
+    border: none;
+    background: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 17px;
+    position: relative;
+}
+
+.notification-dot {
+    width: 7px;
+    height: 7px;
+    background: #f35e69;
+    border-radius: 50%;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    background: #dce9ff;
+    color: #1766e8;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.profile-info strong {
+    display: block;
+    font-size: 11px;
+}
+
+.profile-info span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+/* WELCOME */
+
+.welcome-banner {
+    background: linear-gradient(110deg,#174ba9,#367ff0);
+    border-radius: 17px;
+    padding: 29px 33px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.welcome-banner::after {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 1px solid rgba(255,255,255,.17);
+    border-radius: 50%;
+    right: 100px;
+    top: -140px;
+}
+
+.welcome-text {
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-text span {
+    font-size: 10px;
+    color: #d4e5ff;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.welcome-text h1 {
+    font-size: 25px;
+    margin: 11px 0;
+}
+
+.welcome-text p {
+    font-size: 11px;
+    color: #e1edff;
+    line-height: 1.8;
+}
+
+.banner-button {
+    position: relative;
+    z-index: 1;
+    background: white;
+    color: #1766e8;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 19px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* STATISTICS */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 17px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 13px;
+    border: 1px solid var(--border);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    background: #edf3ff;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.stat-change {
+    font-size: 9px;
+    color: #16a477;
+    background: #eaf9f3;
+    padding: 5px 8px;
+    border-radius: 15px;
+}
+
+.stat-card h2 {
+    font-size: 25px;
+    margin: 17px 0 5px;
+}
+
+.stat-card p {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+/* SECTION HEADINGS */
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+    gap: 12px;
+}
+
+.section-heading h2 {
+    font-size: 16px;
+    color: var(--dark);
+}
+
+.section-heading p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.view-all {
+    font-size: 10px;
+    color: var(--blue);
+    font-weight: 700;
+    border: none;
+    background: none;
+}
+
+/* ANALYTICS */
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 18px;
+    margin-bottom: 29px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 21px;
+    min-width: 0;
+}
+
+.panel-title {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.panel-subtitle {
+    color: var(--muted);
+    font-size: 9px;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    height: 190px;
+    position: relative;
+}
+
+.performance-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.performance-chart {
+    width: 150px;
+    height: 150px;
+}
+
+.legend {
+    display: grid;
+    gap: 13px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: #718099;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 3px;
+}
+
+/* CONTINUE LEARNING */
+
+.learning-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 17px;
+    margin-bottom: 30px;
+}
+
+.course-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    overflow: hidden;
+    transition: .25s;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(40,70,120,.09);
+}
+
+.course-image {
+    height: 145px;
+    position: relative;
+    overflow: hidden;
+}
+
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: white;
+    color: #1766e8;
+    border-radius: 5px;
+    padding: 6px 9px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.course-body {
+    padding: 16px;
+}
+
+.course-category {
+    color: var(--blue);
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.course-body h3 {
+    font-size: 13px;
+    margin: 9px 0;
+    line-height: 1.5;
+}
+
+.course-meta {
+    color: var(--muted);
+    font-size: 9px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    margin-bottom: 7px;
+    color: #7b899e;
+}
+
+.progress-info strong {
+    color: var(--blue);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #edf1f8;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg,#287bf3,#61a0ff);
+    border-radius: 10px;
+}
+
+.continue-button {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: #edf3ff;
+    color: #1766e8;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 11px;
+    margin-top: 15px;
+}
+
+.continue-button:hover {
+    background: var(--blue);
+    color: white;
+}
+
+/* CATALOGUE */
+
+.catalogue-section {
+    margin-top: 35px;
+}
+
+.filters {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 15px;
+    border-radius: 20px;
+    font-size: 10px;
+    color: #718099;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
+
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 17px;
+}
+
+.catalogue-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    overflow: hidden;
+    transition: .25s;
+}
+
+.catalogue-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(40,70,120,.08);
+}
+
+.catalogue-card img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+}
+
+.catalogue-body {
+    padding: 15px;
+}
+
+.catalogue-body h3 {
+    font-size: 13px;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.catalogue-body p {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.catalogue-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.price {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+.enroll-btn {
+    background: var(--blue);
+    border: none;
+    border-radius: 7px;
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 10px 13px;
+}
+
+.save-btn {
+    background: #edf3ff;
+    color: var(--blue);
+    border: none;
+    border-radius: 7px;
+    padding: 9px;
+    margin-left: 5px;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 45px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* NOTIFICATIONS */
+
+.notification-wrap {
+    position: relative;
+}
+
+.notification-popup {
+    display: none;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    background: white;
+    width: 270px;
+    padding: 17px;
+    border-radius: 12px;
+    box-shadow: 0 12px 35px rgba(30,50,90,.15);
+    z-index: 50;
+}
+
+.notification-popup.show {
+    display: block;
+}
+
+.notification-popup h3 {
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.notification-popup p {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+}
+
+/* EMPTY */
+
+.empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+
+/* COURSE PLAYER */
+.course-player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.player-back-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--dark);
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.player-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.player-main,
+.player-sidebar {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 18px;
+    min-width: 0;
+}
+
+.player-video-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #101827;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-video-wrap video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #101827;
+}
+
+.player-empty {
+    color: white;
+    text-align: center;
+    padding: 24px;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+.player-main h2 {
+    font-size: 17px;
+    color: var(--dark);
+    margin: 18px 0 8px;
+}
+
+.player-description {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.player-sidebar h3,
+.player-panel h3 {
+    color: var(--dark);
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.lesson-list {
+    display: grid;
+    gap: 9px;
+}
+
+.lesson-item {
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    cursor: pointer;
+    color: var(--dark);
+}
+
+.lesson-item.active {
+    border-color: var(--blue);
+    background: #f1f6ff;
+}
+
+.lesson-item strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.lesson-item span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.player-panel {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 18px;
+}
+
+.player-materials {
+    display: grid;
+    gap: 10px;
+}
+
+.player-material-link {
+    display: block;
+    padding: 11px 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.player-transcript {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.player-message {
+    color: var(--muted);
+    font-size: 12px;
+    padding: 12px 0;
+}
+
+@media(max-width:850px) {
+    .player-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1150px) {
+    .stats-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+    .catalogue-grid,
+    .learning-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:850px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .3s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 10px 0 35px rgba(0,0,0,.12);
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 22px;
+    }
+
+    .menu-toggle {
+        display: block;
+        border: none;
+        background: white;
+        padding: 9px 12px;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:550px) {
+    .stats-grid,
+    .learning-grid,
+    .catalogue-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        width: 100%;
+        order: 3;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .welcome-banner {
+        padding: 24px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .welcome-text h1 {
+        font-size: 21px;
+    }
+
+    .performance-content {
+        flex-direction: column;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <img src="assets/dais-logo.png" alt="DAIS Logo">
+    </div>
+
+    <div class="nav-label">MAIN MENU</div>
+
+    <button class="nav-item active" onclick="showSection('dashboard',this)">
+        <span class="nav-icon">⌂</span> Dashboard
+    </button>
+
+    <button class="nav-item" onclick="showSection('explore',this)">
+        <span class="nav-icon">◉</span> Explore Courses
+    </button>
+
+    <button class="nav-item" onclick="showSection('mycourses',this)">
+        <span class="nav-icon">▤</span> My Courses
+    </button>
+
+    <button class="nav-item" onclick="showSection('saved',this)">
+        <span class="nav-icon">♡</span> Saved Courses
+    </button>
+
+    <button class="nav-item" onclick="showSection('inbox',this)">
+        <span class="nav-icon">✉</span> Inbox
+        <span class="nav-count">2</span>
+    </button>
+
+    <div class="nav-label">LEARNING COMMUNITY</div>
+
+    <button class="nav-item" onclick="showSection('mentors',this)">
+        <span class="nav-icon">♙</span> Mentors
+    </button>
+
+    <button class="nav-item" onclick="showSection('invite',this)">
+        <span class="nav-icon">♧</span> Invite a Friend
+    </button>
+
+    <div class="sidebar-bottom">
+
+        <div class="help-card">
+            <h4>Need some help?</h4>
+            <p>Our support team is here to help you with your learning journey.</p>
+            <a href="mailto:support@dais.com">Contact Support →</a>
+        </div>
+
+        <button class="nav-item" onclick="showSection('settings',this)">
+            <span class="nav-icon">⚙</span> Settings
+        </button>
+
+        <button class="nav-item" onclick="logout()">
+            <span class="nav-icon">⇥</span> Logout
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div style="display:flex;align-items:center;gap:13px">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+            <div class="breadcrumb">
+                DAIS / <strong id="breadcrumbTitle">Dashboard</strong>
+            </div>
+        </div>
+
+        <div class="top-actions">
+
+            <div class="search-box">
+                <span>⌕</span>
+                <input type="text" id="topSearch"
+                    placeholder="Search courses...">
+            </div>
+
+            <div class="notification-wrap">
+
+                <button class="icon-button"
+                    onclick="toggleNotifications()">
+                    ♧
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="notification-popup" id="notificationPopup">
+                    <h3>Notifications</h3>
+                    <p>Your learning dashboard is ready. Welcome to DAIS!</p>
+                    <p>Check your purchased courses to continue learning.</p>
+                </div>
+
+            </div>
+
+            <div class="profile" onclick="showSection('settings')">
+
+                <div class="avatar" id="profileAvatar">L</div>
+
+                <div class="profile-info">
+                    <strong id="profileName">Learner</strong>
+                    <span>Student Account</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD SECTION -->
+
+    <section id="dashboardSection">
+
+        <div class="welcome-banner">
+
+            <div class="welcome-text">
+                <span>YOUR LEARNING SPACE</span>
+                <h1>Hello, <span id="welcomeName">Learner</span>! 👋</h1>
+                <p>Keep learning, keep growing. Your next achievement is waiting for you.</p>
+            </div>
+
+            <button class="banner-button"
+                onclick="showSection('explore')">
+                Explore Courses →
+            </button>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon">🎓</div>
+                    <span class="stat-change">Completed</span>
+                </div>
+                <h2 id="completedCount">0</h2>
+                <p>Courses Completed</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon">📚</div>
+                    <span class="stat-change">Active</span>
+                </div>
+                <h2 id="progressCount">0</h2>
+                <p>Courses In Progress</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon">⏱</div>
+                    <span class="stat-change">Learning</span>
+                </div>
+                <h2 id="hoursCount">0</h2>
+                <p>Learning Hours</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon">🏆</div>
+                    <span class="stat-change">Achievements</span>
+                </div>
+                <h2 id="pointsCount">0</h2>
+                <p>Total Points Gained</p>
+            </div>
+
+        </div>
+
+
+        <!-- ANALYTICS -->
+
+        <div class="section-heading">
+            <div>
+                <h2>Learning Analytics</h2>
+                <p>Understand your personal learning performance.</p>
+            </div>
+        </div>
+
+        <div class="analytics-grid">
+
+            <div class="panel">
+
+                <div class="panel-title">Learning Hours</div>
+                <div class="panel-subtitle">Your learning time over recent months</div>
+
+                <div class="chart-container">
+                    <canvas id="hoursChart"></canvas>
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-title">Course Performance</div>
+                <div class="panel-subtitle">Your personal course completion overview</div>
+
+                <div class="performance-content">
+
+                    <div class="performance-chart">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+
+                    <div class="legend">
+
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#2469e8"></span>
+                            Completed
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#58a5f5"></span>
+                            In Progress
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#e8edf5"></span>
+                            Not Started
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTINUE LEARNING -->
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Continue Learning</h2>
+                <p>Pick up where you left off.</p>
+            </div>
+
+            <button class="view-all"
+                onclick="showSection('mycourses')">
+                View All →
+            </button>
+
+        </div>
+
+        <div class="learning-grid" id="learningGrid"></div>
+
+    </section>
+
+
+    <!-- EXPLORE COURSES -->
+
+    <section id="exploreSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>Explore Courses</h2>
+                <p>Discover courses and unlock new skills.</p>
+            </div>
+        </div>
+
+        <div id="reactCatalogue"></div>
+
+    </section>
+
+
+    <!-- MY COURSES -->
+
+    <section id="mycoursesSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>My Courses</h2>
+                <p>All your purchased and enrolled courses.</p>
+            </div>
+        </div>
+
+        <div class="learning-grid" id="myCoursesGrid"></div>
+
+    </section>
+
+
+
+    <!-- COURSE PLAYER -->
+    <section id="coursePlayerSection" style="display:none">
+
+        <div class="course-player-header">
+            <div>
+                <h2>Course Player</h2>
+                <p class="player-description">Continue learning at your own pace.</p>
+            </div>
+            <button class="player-back-btn"
+                onclick="showSection('mycourses')">
+                ← Back to My Courses
+            </button>
+        </div>
+
+        <div class="player-layout">
+
+            <div class="player-main">
+                <div class="player-video-wrap" id="playerVideoArea">
+                    <div class="player-empty">
+                        Select a lesson to begin learning.
+                    </div>
+                </div>
+
+                <h2 id="playerCourseTitle">Course title</h2>
+                <p class="player-description" id="playerCourseDescription">
+                    Course description will appear here.
+                </p>
+            </div>
+
+            <aside class="player-sidebar">
+                <h3>Course Lessons</h3>
+                <div class="lesson-list" id="playerLessonList">
+                    <p class="player-message">Loading lessons...</p>
+                </div>
+            </aside>
+
+        </div>
+
+        <div class="player-panel">
+            <h3>Learning Materials</h3>
+            <div class="player-materials" id="playerMaterials">
+                <p class="player-message">No materials loaded yet.</p>
+            </div>
+        </div>
+
+        <div class="player-panel">
+            <h3>Lesson Transcript</h3>
+            <p class="player-transcript" id="playerTranscript">
+                Select a lesson to view its transcript.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- SAVED -->
+
+    <section id="savedSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>Saved Courses</h2>
+                <p>Courses you have bookmarked for later.</p>
+            </div>
+        </div>
+
+        <div class="catalogue-grid" id="savedGrid"></div>
+
+    </section>
+
+
+    <!-- INBOX -->
+
+    <section id="inboxSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>Inbox</h2>
+                <p>Your learning updates and messages.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="panel-title">Welcome to your DAIS inbox!</h3>
+            <p class="panel-subtitle" style="margin-top:15px">
+                You will receive important course announcements,
+                payment confirmations and learning notifications here.
+            </p>
+            <p style="font-size:11px;color:#8794aa">
+                No new messages at the moment.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- MENTORS -->
+
+    <section id="mentorsSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>Mentors</h2>
+                <p>Connect with your course mentors.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="panel-title">Your Learning Mentors</h3>
+            <p class="panel-subtitle" style="margin-top:12px">
+                Mentor information will appear here when it is
+                configured for your enrolled courses.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- INVITE -->
+
+    <section id="inviteSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>Invite a Friend</h2>
+                <p>Share the DAIS learning experience.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="panel-title">Learning is better together!</h3>
+            <p class="panel-subtitle" style="margin-top:12px">
+                Invite your friends to discover courses on DAIS.
+            </p>
+
+            <button class="enroll-btn"
+                onclick="shareDAIS()">
+                Share DAIS →
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- SETTINGS -->
+
+    <section id="settingsSection" style="display:none">
+
+        <div class="section-heading">
+            <div>
+                <h2>Account Settings</h2>
+                <p>Manage your personal learner account.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="panel-title">Profile Information</h3>
+
+            <p style="font-size:11px;color:#8794aa;margin-top:15px">
+                Name: <strong id="settingsName">Learner</strong>
+            </p>
+
+            <p style="font-size:11px;color:#8794aa;margin-top:12px">
+                Email: <strong id="settingsEmail">Not available</strong>
+            </p>
+
+            <button class="enroll-btn"
+                style="margin-top:20px"
+                onclick="logout()">
+                Logout
+            </button>
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+        <span>© 2026 DAIS Learning Platform</span>
+        <span>Learn. Grow. Achieve.</span>
+    </footer>
+
+</main>
+</div>
+
+
+<!-- REACT COURSE CATALOGUE -->
+
+<script type="text/babel">
+
+
+let enrolledCourses = [];
+let enrollmentLoadError = "";
+
+function escapeCourseText(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+    })[char]);
+}
+
+async function loadEnrollments() {
+    const response = await fetch(
+        "http://localhost:8000/api/enrollments/",
+        { credentials: "include" }
+    );
+
+    if (!response.ok) {
+        throw new Error("Unable to load enrollments (HTTP " + response.status + ").");
+    }
+
+    const data = await response.json();
+    if (!Array.isArray(data)) {
+        throw new Error("Unexpected enrollment API response.");
+    }
+
+    enrolledCourses = data.map(item => ({
+        id: Number(item.course_id),
+        enrollmentId: Number(item.enrollment_id),
+        title: item.course_name || "Course unavailable",
+        description: item.course_description || "No course description available.",
+        price: Number(item.course_price || 0),
+        enrollmentStatus: String(item.enrollment_status || "unknown").toLowerCase(),
+        paymentStatus: String(item.payment_status || "unknown").toLowerCase(),
+        purchased:
+            String(item.enrollment_status || "").toLowerCase() === "active" &&
+            String(item.payment_status || "").toLowerCase() === "completed"
+    }));
+}
+
+function renderLearning() {
+    const myGrid = document.getElementById("myCoursesGrid");
+    const learningGrid = document.getElementById("learningGrid");
+
+    if (!myGrid) return;
+
+    if (enrollmentLoadError) {
+        myGrid.textContent = enrollmentLoadError;
+        if (learningGrid) learningGrid.textContent = enrollmentLoadError;
+        return;
+    }
+
+    if (enrolledCourses.length === 0) {
+        const empty = '<div class="empty-state">You have not enrolled in any courses yet. Explore courses to get started.</div>';
+        myGrid.innerHTML = empty;
+        if (learningGrid) learningGrid.innerHTML = empty;
+        return;
+    }
+
+    const cards = enrolledCourses.map(course => {
+        const title = escapeCourseText(course.title);
+        const description = escapeCourseText(course.description);
+        const status = course.purchased
+            ? "Active · Payment completed"
+            : "Enrollment: " + course.enrollmentStatus +
+              " · Payment: " + course.paymentStatus;
+
+        return `
+            <div class="course-card">
+                <div class="course-image">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600" alt="${title}">
+                    <span class="course-tag">${course.purchased ? "ENROLLED" : "STATUS"}</span>
+                </div>
+                <div class="course-body">
+                    <span class="course-category">Enrolled Course</span>
+                    <h3>${title}</h3>
+                    <p>${description}</p>
+                    <div class="course-meta">
+                        <span>${escapeCourseText(status)}</span>
+                        <strong>₹${course.price.toLocaleString("en-IN")}</strong>
+                    </div>
+                    ${course.purchased
+                        ? `<button class="continue-button" onclick="openCourse(${course.id})">Open Course</button>`
+                        : `<button class="continue-button" disabled>Access unavailable</button>`
+                    }
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    myGrid.innerHTML = cards;
+    if (learningGrid) learningGrid.innerHTML = cards;
+}
+
+function updateStats() {
+    const activeCount = enrolledCourses.filter(course => course.purchased).length;
+
+    const completed = document.getElementById("completedCount");
+    const active = document.getElementById("progressCount");
+    const hours = document.getElementById("hoursCount");
+    const points = document.getElementById("pointsCount");
+
+    if (completed) completed.textContent = "0";
+    if (active) {
+        active.textContent = String(activeCount);
+        if (active.nextElementSibling) {
+            active.nextElementSibling.textContent = "Active Enrollments";
+        }
+    }
+    if (hours) hours.textContent = "0";
+    if (points) points.textContent = "0";
+}
+
+
+
+
+
+function CourseCatalogue() {
+
+    const [category,setCategory] = React.useState("All");
+    const [search,setSearch] = React.useState("");
+    const [courses, setCourses] = React.useState([]);
+const [loading, setLoading] = React.useState(true);
+const [error, setError] = React.useState("");
+
+React.useEffect(() => {
+
+    fetch("http" + "://localhost:8000/api/courses/")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load courses");
+            }
+            return response.json();
+        })
+        .then(data => {
+            setCourses(data.map(course => ({
+                id: course.course_id,
+                title: course.course_name,
+                category: course.category || "Uncategorized",
+                channel: course.channel || "General",
+                videoCount: Number(course.video_count || 0),
+                durationMinutes: Number(course.total_video_minutes || 0),
+                price: Number(course.price || 0),
+                image: "https" + "://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
+                description: course.description || "Course details coming soon."
+            })));
+        })
+        .catch(err => {
+            console.error("Course loading error:", err);
+            setError("Unable to load courses. Please try again.");
+        })
+        .finally(() => setLoading(false));
+
+}, []);
+
+    const categories = [
+        "All",
+        ...new Set(courses.map(course => course.category).filter(Boolean))
+    ];
+
+    const filtered = courses.filter(course => {
+
+        const matchesCategory =
+            category === "All" || course.category === category;
+
+        const matchesSearch =
+            course.title.toLowerCase().includes(search.toLowerCase());
+
+        return matchesCategory && matchesSearch;
+
+    });
+
+
+    return (
+
+        <div>
+
+            <div className="search-box"
+                style={{width:"100%",marginBottom:"20px"}}>
+
+                <span>⌕</span>
+
+                <input
+                    value={search}
+                    onChange={e=>setSearch(e.target.value)}
+                    placeholder="Search by course name..."
+                />
+
+            </div>
+
+
+            <div className="filters">
+
+                {categories.map(item => (
+
+                    <button
+                        key={item}
+                        className={"filter-btn " +
+                            (category===item?"active":"")}
+                        onClick={()=>setCategory(item)}
+                    >
+                        {item}
+
+                    </button>
+
+                ))}
+
+            </div>
+
+
+            <div className="catalogue-grid">
+
+                {loading ? (
+                    <div className="empty-state">Loading courses...</div>
+                ) : error ? (
+                    <div className="empty-state">{error}</div>
+                ) : filtered.length === 0 ? (
+
+                    <div className="empty-state">
+                        No courses found. Try another search.
+                    </div>
+
+                ) : (
+
+                    filtered.map(course => (
+
+                        <div className="catalogue-card" key={course.id}>
+
+                            <img src={course.image} alt={course.title}/>
+
+                            <div className="catalogue-body">
+
+                                <span className="course-category">
+                                    {course.category}
+                                </span>
+
+                                <h3>{course.title}</h3>
+
+                                <p>{course.description}</p>
+
+                                <p style={{marginTop:"9px"}}>
+                                    {course.channel} · {course.videoCount} video{course.videoCount === 1 ? "" : "s"} · {course.durationMinutes} minutes
+                                </p>
+
+                                <div className="catalogue-bottom">
+
+                                    <span className="price">
+                                        ₹{course.price.toLocaleString("en-IN")}
+                                    </span>
+
+                                    <div>
+
+                                        <button
+                                            className="enroll-btn"
+
+onClick={() => window.purchaseCourse(course.id, course.title, course.price)}
+                                    >
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    ))
+                )}
+            </div>
+        </div>
+    );
+}
+
+// Mount the course catalogue
+ReactDOM.createRoot(
+    document.getElementById("reactCatalogue")
+).render(<CourseCatalogue />);
+
+// ==================================
+// PAYMENT AND ENROLMENT
+// ==================================
+
+window.purchaseCourse = async function(id, title, price) {
+    if (!confirm(
+        "Do you want to enrol in " + title + " for ₹" + price + "?"
+    )) {
+        return;
+    }
+
+    try {
+        const csrfResponse = await fetch(
+            "http://localhost:8000/api/csrf/",
+            { credentials: "include" }
+        );
+
+        if (!csrfResponse.ok) {
+            throw new Error("Unable to verify your session.");
+        }
+
+        const csrfToken = getCookie("csrftoken");
+
+        // Create a new enrolment or reuse an existing pending enrolment
+        const enrollmentResponse = await fetch(
+            "http://localhost:8000/api/enrollments/",
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({ course_id: id })
+            }
+        );
+
+        const enrollmentData = await enrollmentResponse.json();
+
+        if (!enrollmentResponse.ok) {
+            if (
+                enrollmentResponse.status === 409 &&
+                enrollmentData.enrollment_id &&
+                enrollmentData.enrollment_status === "pending"
+            ) {
+                // Reuse the pending enrolment
+            } else if (
+                enrollmentResponse.status === 409 &&
+                enrollmentData.enrollment_status === "active"
+            ) {
+                alert("You are already enrolled in this course.");
+                return;
+            } else {
+                throw new Error(
+                    enrollmentData.error ||
+                    enrollmentData.detail ||
+                    enrollmentData.message ||
+                    "Enrolment failed."
+                );
+            }
+        }
+
+
+        // Read the active payment gateway
+        const configResponse = await fetch(
+            "http://localhost:8000/api/payments/config/",
+            { credentials: "include" }
+        );
+
+        const configData = await configResponse.json();
+
+        if (!configResponse.ok) {
+            throw new Error("Unable to load payment configuration.");
+        }
+
+        if (configData.gateway === "demo") {
+            const choice = prompt(
+                "DEMO PAYMENT (No real money will be charged)\n\n" +
+                "Enter success, failure, or cancel:"
+            );
+
+            const outcome = choice === null
+                ? "cancel"
+                : choice.trim().toLowerCase();
+
+            if (!["success", "failure", "cancel"].includes(outcome)) {
+                throw new Error(
+                    "Invalid choice. Please enter success, failure, or cancel."
+                );
+            }
+
+            const demoResponse = await fetch(
+                "http://localhost:8000/api/payments/demo/",
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: JSON.stringify({
+                        enrollment_id: enrollmentData.enrollment_id,
+                        outcome: outcome
+                    })
+                }
+            );
+
+            const demoData = await demoResponse.json();
+
+            if (!demoResponse.ok) {
+                throw new Error(
+                    demoData.error || "Demo payment could not be processed."
+                );
+            }
+
+            if (outcome === "success") {
+                alert("Demo payment successful! You are now enrolled.");
+                window.location.reload();
+            } else if (outcome === "failure") {
+                alert("Demo payment failed. Your enrolment remains pending.");
+            } else {
+                alert("Demo payment cancelled. Your enrolment remains pending.");
+            }
+
+            return;
+        }
+
+        if (configData.gateway !== "razorpay") {
+            throw new Error("Unsupported payment gateway configuration.");
+        }
+
+        // Create or reuse a Razorpay order
+        const orderResponse = await fetch(
+            "http://localhost:8000/api/payments/create-order/",
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({
+                    enrollment_id: enrollmentData.enrollment_id
+                })
+            }
+        );
+
+        const orderData = await orderResponse.json();
+
+        if (!orderResponse.ok) {
+            throw new Error(
+                orderData.error || orderData.detail ||
+                "Unable to create Razorpay order."
+            );
+        }
+
+        if (typeof Razorpay === "undefined") {
+            throw new Error("Razorpay Checkout could not be loaded. Please refresh and try again.");
+        }
+
+        const options = {
+            key: orderData.key_id,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: "DAIS",
+            description: "Course enrollment: " + title,
+            order_id: orderData.order_id,
+            prefill: {
+                name: orderData.name,
+                email: orderData.email,
+                contact: orderData.contact
+            },
+            handler: async function (response) {
+                try {
+                    const verifyResponse = await fetch(
+                        "http://localhost:8000/api/payments/verify/",
+                        {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": csrfToken
+                            },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature
+                            })
+                        }
+                    );
+
+                    const verifyData = await verifyResponse.json();
+
+                    if (!verifyResponse.ok) {
+                        throw new Error(
+                            verifyData.error || verifyData.detail ||
+                            "Payment verification failed."
+                        );
+                    }
+
+                    alert(
+                        "Payment successful! Your enrollment is now active." +
+                        "\nPayment ID: " + orderData.payment_id +
+                        "\nEnrollment ID: " + orderData.enrollment_id
+                    );
+
+                    window.location.reload();
+
+                } catch (verificationError) {
+                    console.error("Payment verification error:", verificationError);
+                    alert(
+                        "Payment was received, but verification could not be completed. " +
+                        "Please contact support with Payment ID: " + orderData.payment_id
+                    );
+                }
+            }
+        };
+
+        const checkout = new Razorpay(options);
+
+        checkout.on("payment.failed", function (response) {
+            console.error("Razorpay payment failed:", response.error);
+            alert(
+                "Payment was not completed. Your enrollment remains pending. Please try again."
+            );
+        });
+
+        checkout.open();
+
+    } catch (error) {
+        console.error("Enrolment and payment error:", error);
+        alert(error.message);
+    }
+};
+
+// ==================================
+
+
+let playerVideos = [];
+let playerDocuments = [];
+let playerTranscripts = [];
+
+function isPlaceholderMediaUrl(value) {
+    try {
+        const url = new URL(value);
+        return url.hostname === "example.com" ||
+               url.hostname.endsWith(".example.com");
+    } catch {
+        return true;
+    }
+}
+
+function selectPlayerLesson(index) {
+    const video = playerVideos[index];
+    if (!video) return;
+
+    const area = document.getElementById("playerVideoArea");
+    const transcriptArea = document.getElementById("playerTranscript");
+
+    document.querySelectorAll(".lesson-item").forEach((button, i) => {
+        button.classList.toggle("active", i === index);
+    });
+
+    area.replaceChildren();
+
+    if (!video.video_url || isPlaceholderMediaUrl(video.video_url)) {
+        const message = document.createElement("div");
+        message.className = "player-empty";
+        message.textContent =
+            "Video content is not available yet. Please add a real video URL for this lesson.";
+        area.appendChild(message);
+    } else {
+        try {
+            const url = new URL(video.video_url);
+            if (!["http:", "https:"].includes(url.protocol)) {
+                throw new Error("Unsupported video URL.");
+            }
+
+            const videoElement = document.createElement("video");
+            videoElement.controls = true;
+            videoElement.preload = "metadata";
+            videoElement.src = url.href;
+
+            videoElement.addEventListener("error", () => {
+                area.replaceChildren();
+                const message = document.createElement("div");
+                message.className = "player-empty";
+                message.textContent =
+                    "This video could not be played. Check the media URL and format.";
+                area.appendChild(message);
+            });
+
+            area.appendChild(videoElement);
+        } catch {
+            const message = document.createElement("div");
+            message.className = "player-empty";
+            message.textContent = "The video URL is invalid.";
+            area.appendChild(message);
+        }
+    }
+
+    const transcript = playerTranscripts.find(
+        item => Number(item.video_id) === Number(video.video_id)
+    );
+
+    transcriptArea.textContent = transcript
+        ? transcript.transcript_content || "No transcript content available."
+        : "No transcript is available for this lesson.";
+}
+
+function renderPlayerLessons() {
+    const list = document.getElementById("playerLessonList");
+    list.replaceChildren();
+
+    if (playerVideos.length === 0) {
+        const message = document.createElement("p");
+        message.className = "player-message";
+        message.textContent = "No lessons are available for this course yet.";
+        list.appendChild(message);
+        return;
+    }
+
+    playerVideos.forEach((video, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "lesson-item";
+
+        const title = document.createElement("strong");
+        title.textContent = video.video_title || "Untitled lesson";
+
+        const duration = document.createElement("span");
+        duration.textContent =
+            video.duration_minutes
+                ? video.duration_minutes + " minutes"
+                : "Lesson";
+
+        button.append(title, duration);
+        button.addEventListener("click", () => selectPlayerLesson(index));
+        list.appendChild(button);
+    });
+}
+
+function renderPlayerMaterials() {
+    const container = document.getElementById("playerMaterials");
+    container.replaceChildren();
+
+    if (playerDocuments.length === 0) {
+        const message = document.createElement("p");
+        message.className = "player-message";
+        message.textContent = "No learning materials are available yet.";
+        container.appendChild(message);
+        return;
+    }
+
+    playerDocuments.forEach(documentItem => {
+        const name = documentItem.document_name || "Learning material";
+
+        if (!documentItem.document_url ||
+            isPlaceholderMediaUrl(documentItem.document_url)) {
+            const message = document.createElement("p");
+            message.className = "player-message";
+            message.textContent = name + " — content URL is not available yet.";
+            container.appendChild(message);
+            return;
+        }
+
+        try {
+            const url = new URL(documentItem.document_url);
+            if (!["http:", "https:"].includes(url.protocol)) {
+                throw new Error("Unsupported document URL.");
+            }
+
+            const link = document.createElement("a");
+            link.className = "player-material-link";
+            link.href = url.href;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = name + " (" +
+                (documentItem.document_type || "Document") + ")";
+            container.appendChild(link);
+        } catch {
+            const message = document.createElement("p");
+            message.className = "player-message";
+            message.textContent = name + " — invalid document URL.";
+            container.appendChild(message);
+        }
+    });
+}
+
+async function openCourse(id) {
+    const course = enrolledCourses.find(item => item.id === Number(id));
+
+    if (!course || !course.purchased) {
+        alert("Please purchase this course to access it.");
+        return;
+    }
+
+    showSection("coursePlayer");
+
+    document.getElementById("playerCourseTitle").textContent = course.title;
+    document.getElementById("playerCourseDescription").textContent =
+        course.description || "No course description available.";
+
+    document.getElementById("playerVideoArea").textContent =
+        "Loading course content...";
+    document.getElementById("playerLessonList").textContent =
+        "Loading lessons...";
+    document.getElementById("playerMaterials").textContent =
+        "Loading learning materials...";
+    document.getElementById("playerTranscript").textContent =
+        "Select a lesson to view its transcript.";
+
+    try {
+        const courseId = encodeURIComponent(course.id);
+
+        const endpoints = [
+            "http://localhost:8000/api/videos/?course_id=" + courseId,
+            "http://localhost:8000/api/documents/?course_id=" + courseId,
+            "http://localhost:8000/api/transcripts/?course_id=" + courseId
+        ];
+
+        const responses = await Promise.all(
+            endpoints.map(url =>
+                fetch(url, { credentials: "include" })
+            )
+        );
+
+        const failedResponse = responses.find(response => !response.ok);
+        if (failedResponse) {
+            throw new Error(
+                "Unable to load course content (HTTP " +
+                failedResponse.status + ")."
+            );
+        }
+
+        const results = await Promise.all(
+            responses.map(response => response.json())
+        );
+
+        if (!results.every(Array.isArray)) {
+            throw new Error("Unexpected course content response.");
+        }
+
+        [playerVideos, playerDocuments, playerTranscripts] = results;
+
+        renderPlayerLessons();
+        renderPlayerMaterials();
+
+        if (playerVideos.length > 0) {
+            selectPlayerLesson(0);
+        } else {
+            document.getElementById("playerVideoArea").textContent =
+                "No video lessons are available yet.";
+            document.getElementById("playerTranscript").textContent =
+                "No lesson transcript is available.";
+        }
+    } catch (error) {
+        console.error("Course player loading error:", error);
+
+        document.getElementById("playerVideoArea").textContent =
+            "Unable to load course content. " + error.message;
+        document.getElementById("playerLessonList").textContent =
+            "Lessons could not be loaded.";
+        document.getElementById("playerMaterials").textContent =
+            "Learning materials could not be loaded.";
+    }
+}
+
+
+// NAVIGATION
+// ==================================
+
+function showSection(section, button) {
+
+    const sections = [
+        "dashboard",
+        "explore",
+        "mycourses",
+        "coursePlayer",
+        "saved",
+        "inbox",
+        "mentors",
+        "invite",
+        "settings"
+    ];
+
+    sections.forEach(item => {
+
+        const element =
+            document.getElementById(item + "Section");
+
+        if (element) {
+            element.style.display =
+                item === section ? "block" : "none";
+        }
+
+    });
+
+    const navSection = section === "coursePlayer" ? "mycourses" : section;
+
+    document.getElementById("breadcrumbTitle").textContent =
+        section === "coursePlayer"
+            ? "Course Player"
+            : section.charAt(0).toUpperCase() + section.slice(1);
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    } else {
+
+        const navButtons = [...document.querySelectorAll(".nav-item")];
+
+        const matching = navButtons.find(item =>
+            item.textContent.toLowerCase().includes(navSection)
+        );
+
+        if (matching) matching.classList.add("active");
+
+    }
+
+    if (section === "saved") renderSaved();
+
+    if (section === "mycourses") renderLearning();
+
+    document.getElementById("sidebar").classList.remove("open");
+
+}
+
+
+// ==================================
+// MOBILE SIDEBAR
+// ==================================
+
+function toggleSidebar() {
+
+    document.getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+// ==================================
+// NOTIFICATIONS
+// ==================================
+
+function toggleNotifications() {
+
+    document.getElementById("notificationPopup")
+        .classList.toggle("show");
+
+}
+
+
+// ==================================
+// SEARCH
+// ==================================
+
+document.getElementById("topSearch")
+    .addEventListener("input", function() {
+
+        const value = this.value.trim();
+
+        showSection("explore");
+
+        const catalogueSearch =
+            document.querySelector("#reactCatalogue input");
+
+        if (catalogueSearch) {
+
+            catalogueSearch.value = value;
+
+            catalogueSearch.dispatchEvent(
+                new Event("input", {bubbles:true})
+            );
+
+        }
+
+    });
+
+
+// ==================================
+// SHARE
+// ==================================
+
+function shareDAIS() {
+
+    const shareData = {
+        title: "DAIS Learning Platform",
+        text: "Explore learning opportunities with DAIS!",
+        url: window.location.origin
+    };
+
+    if (navigator.share) {
+
+        navigator.share(shareData).catch(() => {});
+
+    } else {
+
+        navigator.clipboard.writeText(shareData.url)
+            .then(() => alert("DAIS link copied!"))
+            .catch(() => alert("Unable to copy link."));
+
+    }
+
+}
+
+
+// ==================================
+// LOAD LEARNER PROFILE
+function loadProfile() {
+    const learner = JSON.parse(
+        sessionStorage.getItem("daisLearner") || "{}"
+    );
+
+    const name = learner.name || "Learner";
+
+    ["profileName", "welcomeName", "settingsName"].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = name;
+    });
+
+    const avatar = document.getElementById("profileAvatar");
+    if (avatar) {
+        avatar.textContent = name.trim().charAt(0).toUpperCase() || "L";
+    }
+}
+
+// LOGOUT
+// ==================================
+
+async function logout() {
+
+    if (!confirm("Are you sure you want to logout?")) {
+        return;
+    }
+
+    // Call backend logout
+    if (USE_BACKEND) {
+        try {
+            await fetch(API_BASE + "/learners/logout/", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken")
+                }
+            });
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    }
+
+    // Clear learner session
+    sessionStorage.removeItem("daisLearner");
+
+    // Prevent dashboard from being restored
+    window.location.replace("learner-login.html");
+}
+
+
+// ==================================
+// CSRF COOKIE
+// ==================================
+
+function getCookie(name) {
+
+    const cookies = document.cookie.split(";");
+
+    for (let cookie of cookies) {
+
+        cookie = cookie.trim();
+
+        if (cookie.startsWith(name + "=")) {
+
+            return decodeURIComponent(
+                cookie.substring(name.length + 1)
+            );
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+// ==================================
+// CHARTS
+// ==================================
+
+function initializeCharts() {
+    const hoursCanvas = document.getElementById("hoursChart");
+    const performanceCanvas = document.getElementById("performanceChart");
+
+    if (typeof Chart === "undefined") {
+        console.error("Chart.js is not available.");
+        return;
+    }
+
+    if (hoursCanvas) {
+        new Chart(hoursCanvas, {
+            type: "bar",
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                datasets: [{
+                    label: "Learning Hours",
+                    data: [0, 0, 0, 0, 0, 0],
+                    backgroundColor: "#4387f4",
+                    borderRadius: 6,
+                    barThickness: 23
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: "#edf1f7" },
+                        ticks: { font: { size: 9 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 9 } }
+                    }
+                }
+            }
+        });
+    }
+
+    const activeCount = enrolledCourses.filter(
+        course => course.purchased
+    ).length;
+
+    const pendingCount = enrolledCourses.length - activeCount;
+
+    if (performanceCanvas) {
+        new Chart(performanceCanvas, {
+            type: "doughnut",
+            data: {
+                labels: ["Active Enrollments", "Pending / Other"],
+                datasets: [{
+                    data: [activeCount, pendingCount],
+                    backgroundColor: ["#2469e8", "#e8edf5"],
+                    borderWidth: 0,
+                    cutout: "72%"
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+}
+
+
+// ==================================
+// ==================================
+// INITIALIZE
+// ==================================
+
+// CHECK LEARNER LOGIN SESSION
+if (!sessionStorage.getItem("daisLearner")) {
+    window.location.replace("learner-login.html");
+} else {
+    loadProfile();
+
+    async function initializeDashboard() {
+        try {
+            await loadEnrollments();
+            enrollmentLoadError = "";
+        } catch (error) {
+            console.error("Enrollment loading error:", error);
+            enrollmentLoadError = "Unable to load your courses. Please refresh and try again.";
+        }
+
+        updateStats();
+        renderLearning();
+        initializeCharts();
+    }
+
+    initializeDashboard();
+}
+
+// PREVENT ACCESS THROUGH BROWSER BACK BUTTON
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted || !sessionStorage.getItem("daisLearner")) {
+        window.location.replace("learner-login.html");
+    }
+});
+
+</script>
+
+</body>
+</html>

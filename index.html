@@ -1,0 +1,1512 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DAIS | Learn. Track. Grow.</title>
+
+    <meta name="description" content="DAIS - Your secure online video learning platform. Discover courses, learn new skills and grow with DAIS.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+            --primary: #1766e8;
+            --primary-dark: #0646b5;
+            --navy: #102957;
+            --text: #20365f;
+            --muted: #71819e;
+            --background: #f4f7ff;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        header {
+            height: 88px;
+            padding: 0 7%;
+            background: rgba(255,255,255,0.96);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 25px rgba(35,75,140,0.05);
+        }
+
+        .logo img {
+            width: 145px;
+            height: 65px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #536687;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(120deg, #287bf3, #0750c6);
+            color: white;
+            box-shadow: 0 9px 22px rgba(20,95,220,0.19);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 28px rgba(20,95,220,0.28);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--navy);
+            border: 1px solid #dce5f5;
+        }
+
+        .btn-outline:hover {
+            background: #edf4ff;
+            transform: translateY(-2px);
+        }
+
+        .arrow {
+            font-size: 20px;
+        }
+
+        /* =========================
+           HERO SECTION
+        ========================= */
+
+        .hero {
+            width: 86%;
+            min-height: 570px;
+            margin: 35px auto;
+            padding: 65px 6%;
+            border-radius: 30px;
+            background: linear-gradient(120deg, #eaf2ff, #d9e8ff);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 50%;
+            top: -210px;
+            right: -100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .tag {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 10px 17px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(43px, 5vw, 65px);
+            line-height: 1.13;
+            letter-spacing: -2.5px;
+            color: #102957;
+            margin: 25px 0 18px;
+        }
+
+        .hero h1 span {
+            color: #1268e9;
+        }
+
+        .hero-description {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #627493;
+            max-width: 520px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .hero-points {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #526889;
+        }
+
+        .hero-points span::before {
+            content: "✓";
+            color: #079d70;
+            font-weight: 900;
+            margin-right: 6px;
+        }
+
+        /* =========================
+           HERO ILLUSTRATION
+        ========================= */
+
+        .hero-visual {
+            position: relative;
+            min-height: 370px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .visual-circle {
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            border: 1px solid rgba(30,100,200,0.22);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .visual-circle::before {
+            content: "";
+            width: 270px;
+            height: 270px;
+            border: 1px dashed rgba(30,100,200,0.3);
+            border-radius: 50%;
+        }
+
+        .learning-card {
+            width: 335px;
+            padding: 25px;
+            border-radius: 23px;
+            background: white;
+            box-shadow: 0 20px 50px rgba(30,70,140,0.16);
+            position: relative;
+            transform: rotate(2deg);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .status {
+            background: #e3f9f0;
+            color: #07976b;
+            padding: 6px 9px;
+            border-radius: 20px;
+        }
+
+        .learning-card h3 {
+            font-size: 25px;
+            margin-top: 25px;
+            color: #15346c;
+        }
+
+        .learning-card > p {
+            color: #8290a8;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .course-preview {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            background: #f0f5ff;
+            padding: 13px;
+            border-radius: 13px;
+            margin-top: 16px;
+        }
+
+        .course-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            background: linear-gradient(140deg, #3a8bff, #0751c4);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .course-preview strong {
+            font-size: 11px;
+            display: block;
+        }
+
+        .course-preview small {
+            color: #7c8da9;
+            font-size: 9px;
+        }
+
+        .floating {
+            position: absolute;
+            background: white;
+            padding: 13px 16px;
+            border-radius: 13px;
+            box-shadow: 0 10px 30px rgba(30,70,140,0.13);
+            font-size: 10px;
+            font-weight: 800;
+            color: #254477;
+        }
+
+        .floating-one {
+            top: 20px;
+            right: -5px;
+        }
+
+        .floating-two {
+            bottom: 20px;
+            left: -5px;
+        }
+
+        /* =========================
+           SECTION HEADINGS
+        ========================= */
+
+        .section {
+            width: 86%;
+            margin: 90px auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 40px;
+        }
+
+        .section-heading small {
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(28px, 3.5vw, 39px);
+            color: #142e62;
+            margin: 13px 0;
+            letter-spacing: -1px;
+        }
+
+        .section-heading p {
+            color: #71809b;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        /* =========================
+           LEARNER BENEFITS
+        ========================= */
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .feature-card {
+            padding: 28px;
+            background: white;
+            border: 1px solid #e5ecfa;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(30,70,140,0.09);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: #eaf2ff;
+            color: #075bd8;
+            font-size: 22px;
+        }
+
+        .feature-card h3 {
+            margin: 18px 0 9px;
+            color: #19376e;
+            font-size: 16px;
+        }
+
+        .feature-card p {
+            color: #7887a0;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        /* =========================
+           HOW IT WORKS
+        ========================= */
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 25px 18px;
+            border-radius: 18px;
+            background: white;
+            border: 1px solid #e5ecfa;
+        }
+
+        .step-number {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #e8f1ff;
+            color: #075bd8;
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        .step-card h3 {
+            font-size: 14px;
+            color: #19376e;
+            margin-bottom: 9px;
+        }
+
+        .step-card p {
+            color: #7887a0;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           LEARNER CTA
+        ========================= */
+
+        .learner-cta {
+            width: 86%;
+            margin: 85px auto;
+            padding: 48px 35px;
+            text-align: center;
+            border-radius: 25px;
+            background: linear-gradient(110deg, #0750bd, #3485f4);
+            color: white;
+        }
+
+        .learner-cta h2 {
+            font-size: 29px;
+            margin-bottom: 12px;
+        }
+
+        .learner-cta p {
+            color: #dceaff;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .learner-cta .btn {
+            background: white;
+            color: #0752bd;
+        }
+
+        /* =========================
+           TENANT LOGIN STRIP
+        ========================= */
+
+        .tenant-strip {
+            width: 86%;
+            margin: 75px auto;
+            padding: 25px 35px;
+            background: white;
+            border: 1px solid #dce6f7;
+            border-radius: 15px;
+            box-shadow: 0 8px 28px rgba(30,70,140,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .tenant-strip-content {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+        }
+
+        .tenant-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: #edf3ff;
+            color: #175bd0;
+            font-size: 23px;
+        }
+
+        .tenant-strip h3 {
+            color: #17346d;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .tenant-strip p {
+            color: #7887a0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .tenant-login-link {
+            color: #075bd8;
+            font-size: 13px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            white-space: nowrap;
+            padding: 13px 19px;
+            border-radius: 10px;
+            background: #edf4ff;
+            transition: 0.3s;
+        }
+
+        .tenant-login-link:hover {
+            color: white;
+            background: #075bd8;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 30px 7%;
+            background: white;
+            border-top: 1px solid #e5ebf6;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo img {
+            width: 110px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .footer-content p {
+            font-size: 11px;
+            color: #8592a8;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            font-size: 11px;
+            color: #687b9a;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* =========================
+           LEARNER LOGIN / SIGNUP MODAL
+        ========================= */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(8,25,58,0.55);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 32px;
+            border-radius: 22px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.2);
+            animation: showModal 0.25s ease;
+        }
+
+        @keyframes showModal {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .modal-box h3 {
+            color: #16346c;
+            font-size: 23px;
+            margin-bottom: 8px;
+        }
+
+        .modal-box p {
+            color: #7887a0;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .close-btn {
+            border: none;
+            background: #f0f4fb;
+            color: #526580;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: grid;
+            gap: 13px;
+            margin-top: 27px;
+        }
+
+        .modal-actions .btn {
+            width: 100%;
+        }
+
+        .modal-note {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 10px !important;
+        }
+
+        /* =========================
+           MOBILE NAVIGATION
+        ========================= */
+
+        .menu-toggle {
+            display: none;
+            border: none;
+            background: #edf3ff;
+            color: var(--primary);
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
+        @media(max-width: 950px) {
+
+            .hero {
+                padding: 50px 5%;
+            }
+
+            .nav-links {
+                gap: 18px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 750px) {
+
+            header {
+                height: 75px;
+                padding: 0 5%;
+            }
+
+            .logo img {
+                width: 115px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 75px;
+                left: 5%;
+                width: 90%;
+                padding: 22px;
+                border-radius: 15px;
+                background: white;
+                box-shadow: 0 10px 30px rgba(20,50,100,0.12);
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .hero {
+                width: 92%;
+                grid-template-columns: 1fr;
+                padding: 40px 25px;
+                margin-top: 20px;
+            }
+
+            .hero h1 {
+                font-size: 43px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .hero-visual {
+                min-height: 340px;
+            }
+
+            .learning-card {
+                max-width: 300px;
+            }
+
+            .visual-circle {
+                width: 290px;
+                height: 290px;
+            }
+
+            .floating-one {
+                right: 0;
+            }
+
+            .floating-two {
+                left: 0;
+            }
+
+            .section {
+                width: 92%;
+                margin: 65px auto;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .learner-cta,
+            .tenant-strip {
+                width: 92%;
+            }
+
+            .tenant-strip {
+                padding: 22px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .tenant-login-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media(max-width: 420px) {
+
+            .hero h1 {
+                font-size: 37px;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+            .learning-card {
+                padding: 18px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .learner-cta {
+                padding: 35px 20px;
+            }
+
+            .learner-cta h2 {
+                font-size: 23px;
+            }
+        }
+
+        @media(prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <a href="index.html" class="logo">
+            <img src="assets/dais-logo.png" alt="DAIS Logo">
+        </a>
+
+        <nav class="nav-links" id="navigation">
+
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#about">About Us</a>
+
+        </nav>
+
+        <div class="nav-actions">
+
+            <button class="btn btn-outline" onclick="openLearnerModal()">
+                Login
+            </button>
+
+            <button class="btn btn-primary" onclick="openLearnerModal()">
+                Get Started <span class="arrow">→</span>
+            </button>
+
+        </div>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Toggle navigation"
+                aria-expanded="false">
+            ☰
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main>
+
+        <!-- HERO -->
+
+        <section class="hero" id="home">
+
+            <div class="hero-content">
+
+                <span class="tag">
+                    ● YOUR DIGITAL LEARNING DESTINATION
+                </span>
+
+                <h1>
+                    Learn Better.<br>
+                    <span>Grow Further.</span>
+                </h1>
+
+                <p class="hero-description">
+
+                    Discover a smarter way to learn with DAIS.
+                    Explore expert-led courses, experience secure
+                    video learning, and develop your skills through
+                    a personalised digital learning environment.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <button class="btn btn-primary"
+                            onclick="openLearnerModal()">
+
+                        Start Learning
+                        <span class="arrow">→</span>
+
+                    </button>
+
+                    <a href="#features" class="btn btn-outline">
+                        Explore Features
+                    </a>
+
+                </div>
+
+                <div class="hero-points">
+
+                    <span>Secure Course Access</span>
+                    <span>Easy Enrolment</span>
+                    <span>Learn Anytime</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- VISUAL CARD -->
+
+            <div class="hero-visual">
+
+                <div class="visual-circle"></div>
+
+                <div class="floating floating-one">
+                    🛡️ Protected Learning
+                </div>
+
+                <div class="learning-card">
+
+                    <div class="card-top">
+
+                        <span>YOUR LEARNING SPACE</span>
+
+                        <span class="status">● AVAILABLE</span>
+
+                    </div>
+
+                    <h3>Keep Learning.</h3>
+
+                    <p>
+                        Your next learning experience starts here.
+                    </p>
+
+                    <div class="course-preview">
+
+                        <div class="course-icon">▶</div>
+
+                        <div>
+                            <strong>Explore Courses</strong>
+                            <small>Discover your learning journey</small>
+                        </div>
+
+                    </div>
+
+                    <div class="course-preview">
+
+                        <div class="course-icon">✓</div>
+
+                        <div>
+                            <strong>Secure Course Access</strong>
+                            <small>Protected video content</small>
+                        </div>
+
+                    </div>
+
+                    <div class="course-preview">
+
+                        <div class="course-icon">✦</div>
+
+                        <div>
+                            <strong>Grow Your Skills</strong>
+                            <small>Learn at your own pace</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="floating floating-two">
+                    ✓ Payment-Verified Enrolment
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section class="section" id="features">
+
+            <div class="section-heading">
+
+                <small>YOUR LEARNING EXPERIENCE</small>
+
+                <h2>Everything You Need to Learn Better</h2>
+
+                <p>
+                    Explore a complete learning environment
+                    designed to make your learning journey
+                    simple, secure and effective.
+                </p>
+
+            </div>
+
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">▤</div>
+
+                    <h3>Explore Courses</h3>
+
+                    <p>
+                        Browse available courses and discover
+                        learning opportunities across different
+                        subjects and categories.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">₹</div>
+
+                    <h3>Secure Payments</h3>
+
+                    <p>
+                        Purchase your preferred courses through
+                        secure payment transactions and receive
+                        access after successful verification.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">🛡</div>
+
+                    <h3>Protected Video Streaming</h3>
+
+                    <p>
+                        Enjoy authenticated video access with
+                        content protection designed to reduce
+                        unauthorised sharing and downloading.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">✉</div>
+
+                    <h3>Instant Notifications</h3>
+
+                    <p>
+                        Receive important course enrolment,
+                        payment and account notifications
+                        through email and WhatsApp.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">▣</div>
+
+                    <h3>Personal Dashboard</h3>
+
+                    <p>
+                        Access your purchased courses, learning
+                        statistics, progress reports and
+                        personalised learning information.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">▶</div>
+
+                    <h3>Flexible Learning</h3>
+
+                    <p>
+                        Access your purchased learning content
+                        through your personal account whenever
+                        you want to continue learning.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HOW IT WORKS -->
+
+        <section class="section" id="how-it-works">
+
+            <div class="section-heading">
+
+                <small>YOUR JOURNEY WITH DAIS</small>
+
+                <h2>How Does It Work?</h2>
+
+                <p>
+                    Getting started with your learning journey
+                    is simple. Follow these four steps.
+                </p>
+
+            </div>
+
+
+            <div class="steps-grid">
+
+                <div class="step-card">
+
+                    <div class="step-number">01</div>
+
+                    <h3>Create Your Account</h3>
+
+                    <p>
+                        Register with your basic details
+                        and create your personal account.
+                    </p>
+
+                </div>
+
+
+                <div class="step-card">
+
+                    <div class="step-number">02</div>
+
+                    <h3>Explore Courses</h3>
+
+                    <p>
+                        Browse the available courses and
+                        select the one you want to learn.
+                    </p>
+
+                </div>
+
+
+                <div class="step-card">
+
+                    <div class="step-number">03</div>
+
+                    <h3>Complete Payment</h3>
+
+                    <p>
+                        Make the required payment and
+                        wait for successful verification.
+                    </p>
+
+                </div>
+
+
+                <div class="step-card">
+
+                    <div class="step-number">04</div>
+
+                    <h3>Start Learning</h3>
+
+                    <p>
+                        Access your purchased course
+                        and enjoy protected video learning.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LEARNER CALL TO ACTION -->
+
+        <section class="learner-cta" id="about">
+
+            <h2>Your Next Learning Journey Starts Here.</h2>
+
+            <p>
+                Create your DAIS account today and discover
+                a better way to learn, explore and grow.
+            </p>
+
+            <button class="btn" onclick="openLearnerModal()">
+                Join DAIS Today <span class="arrow">→</span>
+            </button>
+
+        </section>
+
+
+        <!-- TENANT LOGIN STRIP -->
+
+        <section class="tenant-strip">
+
+            <div class="tenant-strip-content">
+
+                <div class="tenant-icon">
+                    ▦
+                </div>
+
+                <div>
+
+                    <h3>Are you a Tenant?</h3>
+
+                    <p>
+                        Access your organisation's dedicated
+                        DAIS workspace through the tenant portal.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <a href="tenant-login.html" class="tenant-login-link">
+
+                Tenant Login
+
+                <span class="arrow">→</span>
+
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <a href="#home" class="footer-logo">
+
+                <img src="assets/dais-logo.png" alt="DAIS Logo">
+
+            </a>
+
+            <p>
+                © <span id="year"></span> DAIS.
+                All Rights Reserved.
+            </p>
+
+            <div class="footer-links">
+
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         LEARNER LOGIN / SIGNUP POPUP
+    ========================= -->
+
+    <div class="modal-overlay"
+         id="learnerModal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modalTitle">
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h3 id="modalTitle">
+                        Welcome to DAIS!
+                    </h3>
+
+                    <p>
+                        Continue your learning journey
+                        by choosing an option below.
+                    </p>
+
+                </div>
+
+                <button class="close-btn"
+                        id="closeModal"
+                        aria-label="Close popup">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <a href="learner-login.html"
+                   class="btn btn-primary">
+
+                    Login to Your Account →
+
+                </a>
+
+                <a href="learner-signup.html"
+                   class="btn btn-outline">
+
+                    Create a New Account
+
+                </a>
+
+            </div>
+
+            <p class="modal-note">
+                Your personal learning space is waiting for you.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        // LEARNER LOGIN AND SIGNUP POPUP
+
+        const modal = document.getElementById("learnerModal");
+
+        const closeButton = document.getElementById("closeModal");
+
+
+        function openLearnerModal() {
+
+            modal.classList.add("active");
+
+            document.body.style.overflow = "hidden";
+
+            closeButton.focus();
+
+        }
+
+
+        function closeLearnerModal() {
+
+            modal.classList.remove("active");
+
+            document.body.style.overflow = "";
+
+        }
+
+
+        closeButton.addEventListener("click", closeLearnerModal);
+
+
+        // CLOSE WHEN CLICKING OUTSIDE
+
+        modal.addEventListener("click", function(event) {
+
+            if (event.target === modal) {
+
+                closeLearnerModal();
+
+            }
+
+        });
+
+
+        // CLOSE USING ESCAPE KEY
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key === "Escape") {
+
+                closeLearnerModal();
+
+            }
+
+        });
+
+
+        // MOBILE NAVIGATION
+
+        const menuToggle = document.getElementById("menuToggle");
+
+        const navigation = document.getElementById("navigation");
+
+
+        menuToggle.addEventListener("click", function() {
+
+            const isOpen = navigation.classList.toggle("show");
+
+            menuToggle.textContent = isOpen ? "×" : "☰";
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+        });
+
+
+        // CLOSE MOBILE MENU AFTER CLICKING A LINK
+
+        navigation.querySelectorAll("a").forEach(function(link) {
+
+            link.addEventListener("click", function() {
+
+                navigation.classList.remove("show");
+
+                menuToggle.textContent = "☰";
+
+                menuToggle.setAttribute("aria-expanded", "false");
+
+            });
+
+        });
+
+
+        // AUTOMATIC COPYRIGHT YEAR
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+    </script>
+
+</body>
+</html>

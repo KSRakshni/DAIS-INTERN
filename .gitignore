@@ -1,0 +1,36 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+backend/.env.docker
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+backend/venv/
+
+# macOS and editor files
+.DS_Store
+.vscode/
+
+# Database backups
+*.dump
+
+# Old backup copies
+*.backup*
+*.bak
+*.before-*.html
+*-backup*
+
+# Node dependencies, if added later
+node_modules/
+
+# Test and cache files
+.pytest_cache/
+.coverage
+compose.before-postgres18.yaml

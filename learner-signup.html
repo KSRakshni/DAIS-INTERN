@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAIS | Learner Sign Up</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blue: #1766e8;
+            --dark-blue: #10316c;
+            --text: #24385f;
+            --muted: #8290a8;
+            --light: #f3f6ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f3f6ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 20px;
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1080px;
+            min-height: 680px;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 65px rgba(37, 75, 145, 0.12);
+        }
+
+        /* LEFT PANEL */
+
+        .left-panel {
+            background: linear-gradient(145deg, #0750bd, #287ef3);
+            padding: 45px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before,
+        .left-panel::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 50%;
+        }
+
+        .left-panel::before {
+            width: 380px;
+            height: 380px;
+            bottom: -180px;
+            left: -160px;
+        }
+
+        .left-panel::after {
+            width: 250px;
+            height: 250px;
+            top: 150px;
+            right: -130px;
+        }
+
+        .brand-logo {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-logo img {
+            width: 145px;
+            height: 65px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 2;
+            margin: 35px 0;
+        }
+
+        .left-content .small-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.16);
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .left-content h1 {
+            font-size: 39px;
+            line-height: 1.25;
+            margin: 24px 0 18px;
+            letter-spacing: -1.3px;
+        }
+
+        .left-content h1 span {
+            color: #b9d7ff;
+        }
+
+        .left-content p {
+            font-size: 13px;
+            line-height: 1.9;
+            color: #e1edff;
+        }
+
+        .benefits {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            gap: 18px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 12px;
+            color: #edf5ff;
+        }
+
+        .benefit-icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.17);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 17px;
+        }
+
+        .left-footer {
+            position: relative;
+            z-index: 2;
+            color: #d4e5ff;
+            font-size: 10px;
+        }
+
+        /* RIGHT PANEL */
+
+        .right-panel {
+            padding: 45px 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-heading {
+            margin-bottom: 28px;
+        }
+
+        .form-heading .welcome {
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .form-heading h2 {
+            font-size: 29px;
+            color: var(--dark-blue);
+            margin: 12px 0 9px;
+        }
+
+        .form-heading p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        /* FORM */
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #31476e;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #dfe7f3;
+            border-radius: 10px;
+            outline: none;
+            background: #fbfcff;
+            font-family: inherit;
+            font-size: 12px;
+            color: var(--text);
+            transition: 0.25s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(23,102,232,0.09);
+        }
+
+        .form-group input::placeholder {
+            color: #a5afc0;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--blue);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #e8edf5;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 3px;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: 0.3s;
+            border-radius: 10px;
+        }
+
+        .strength-text {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* CHECKBOX */
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 3px;
+        }
+
+        .terms input {
+            margin-top: 2px;
+            accent-color: var(--blue);
+            cursor: pointer;
+        }
+
+        .terms label {
+            color: #7b89a1;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .terms a {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        /* BUTTON */
+
+        .submit-btn {
+            width: 100%;
+            height: 49px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(110deg, #287bf3, #0750c6);
+            color: white;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(23,102,232,0.2);
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(23,102,232,0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #d93636;
+            font-size: 11px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .success-message {
+            color: #07865c;
+            background: #e8f9f1;
+            border-radius: 9px;
+            padding: 11px;
+            font-size: 11px;
+            display: none;
+        }
+
+        /* LOGIN LINK */
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 11px;
+            color: #7e8ba2;
+        }
+
+        .login-link a {
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 17px;
+        }
+
+        .back-home a {
+            color: #8391a8;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .back-home a:hover {
+            color: var(--blue);
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 850px) {
+            .page-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 550px;
+            }
+
+            .left-panel {
+                min-height: 300px;
+                padding: 30px;
+            }
+
+            .left-content {
+                margin: 25px 0;
+            }
+
+            .left-content h1 {
+                font-size: 30px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .left-footer {
+                margin-top: 25px;
+            }
+
+            .right-panel {
+                padding: 40px 35px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .page-wrapper {
+                border-radius: 18px;
+            }
+
+            .left-panel {
+                padding: 25px;
+            }
+
+            .right-panel {
+                padding: 30px 22px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .form-heading h2 {
+                font-size: 25px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- LEFT INFORMATION PANEL -->
+
+        <section class="left-panel">
+
+            <a href="index.html" class="brand-logo">
+                <img src="assets/dais-logo.png" alt="DAIS Logo">
+            </a>
+
+            <div class="left-content">
+
+                <span class="small-tag">
+                    YOUR LEARNING JOURNEY STARTS HERE
+                </span>
+
+                <h1>
+                    Learn More.<br>
+                    <span>Achieve More.</span>
+                </h1>
+
+                <p>
+                    Create your DAIS account and unlock access
+                    to a world of learning opportunities.
+                    Explore courses, develop new skills and
+                    grow with every learning experience.
+                </p>
+
+            </div>
+
+            <div class="benefits">
+
+                <div class="benefit">
+                    <div class="benefit-icon">▶</div>
+                    <span>Access your purchased courses</span>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">🛡</div>
+                    <span>Secure and protected video learning</span>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">✦</div>
+                    <span>Your own personalised dashboard</span>
+                </div>
+
+            </div>
+
+            <div class="left-footer">
+                © 2026 DAIS. All rights reserved.
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIGNUP PANEL -->
+
+        <section class="right-panel">
+
+            <div class="form-heading">
+
+                <span class="welcome">WELCOME TO DAIS</span>
+
+                <h2>Create Your Account</h2>
+
+                <p>
+                    Enter your details below to create your
+                    personal learner account.
+                </p>
+
+            </div>
+
+
+            <!-- SIGNUP FORM -->
+
+            <form class="signup-form" id="signupForm" novalidate>
+
+                <div class="form-group">
+
+                    <label for="fullName">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="age">Age</label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            name="age"
+                            placeholder="Enter your age"
+                            min="13"
+                            max="120"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">Phone Number</label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="10-digit mobile number"
+                            inputmode="numeric"
+                            maxlength="10"
+                            autocomplete="tel"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="example@gmail.com"
+                        autocomplete="email"
+                        maxlength="254"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">Create Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="password">
+                            Show
+                        </button>
+
+                    </div>
+
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+
+                    <span class="strength-text" id="strengthText">
+                        Use at least 8 characters with letters and numbers.
+                    </span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">Confirm Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirm_password"
+                            placeholder="Re-enter your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="confirmPassword">
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <label for="terms">
+                        I agree to the
+                        <a href="#" id="termsLink">Terms & Conditions</a>
+                        and
+                        <a href="#" id="privacyLink">Privacy Policy</a>
+                        of DAIS.
+                    </label>
+
+                </div>
+
+
+                <p class="error-message" id="errorMessage"
+                   role="alert"></p>
+
+                <p class="success-message" id="successMessage"
+                   role="status"></p>
+
+
+                <button type="submit"
+                        class="submit-btn"
+                        id="submitBtn">
+
+                    Create Learner Account →
+
+                </button>
+
+            </form>
+
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="learner-login.html">
+                    Login here
+                </a>
+
+            </div>
+
+
+            <div class="back-home">
+
+                <a href="index.html">← Back to Home</a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // CONFIGURATION
+
+        const API_URL = "http" + String.fromCharCode(58, 47, 47) + "127.0.0.1:8000/api/learners/register/";
+
+
+        const form = document.getElementById("signupForm");
+
+        const password = document.getElementById("password");
+
+        const confirmPassword =
+            document.getElementById("confirmPassword");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const successMessage =
+            document.getElementById("successMessage");
+
+        const submitBtn =
+            document.getElementById("submitBtn");
+
+
+        // SHOW / HIDE PASSWORD
+
+        document.querySelectorAll(".toggle-password")
+            .forEach(function(button) {
+
+                button.addEventListener("click", function() {
+
+                    const input = document.getElementById(
+                        this.dataset.target
+                    );
+
+                    if (input.type === "password") {
+
+                        input.type = "text";
+                        this.textContent = "Hide";
+
+                    } else {
+
+                        input.type = "password";
+                        this.textContent = "Show";
+
+                    }
+
+                });
+
+            });
+
+
+        // PASSWORD STRENGTH
+
+        password.addEventListener("input", function() {
+
+            const value = password.value;
+
+            const bar = document.getElementById("strengthBar");
+
+            const text = document.getElementById("strengthText");
+
+            let score = 0;
+
+            if (value.length >= 8) score++;
+
+            if (/[A-Z]/.test(value)) score++;
+
+            if (/[a-z]/.test(value)) score++;
+
+            if (/[0-9]/.test(value)) score++;
+
+            if (/[^A-Za-z0-9]/.test(value)) score++;
+
+            const widths = ["0%", "20%", "40%", "60%", "80%", "100%"];
+
+            const labels = [
+                "Use at least 8 characters.",
+                "Very weak password",
+                "Weak password",
+                "Fair password",
+                "Good password",
+                "Strong password"
+            ];
+
+            bar.style.width = widths[score];
+
+            const colors = [
+                "#e8edf5",
+                "#ef4444",
+                "#f97316",
+                "#eab308",
+                "#22a06b",
+                "#07865c"
+            ];
+
+            bar.style.background = colors[score];
+
+            text.textContent = labels[score];
+
+        });
+
+
+        // ERROR DISPLAY
+
+        function showError(message) {
+
+            errorMessage.textContent = message;
+
+            errorMessage.style.display = "block";
+
+            successMessage.style.display = "none";
+
+        }
+
+
+        // FORM SUBMISSION
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            errorMessage.style.display = "none";
+
+            successMessage.style.display = "none";
+
+
+            const name = document.getElementById("fullName")
+                .value.trim();
+
+            const age = Number(
+                document.getElementById("age").value
+            );
+
+            const phone = document.getElementById("phone")
+                .value.trim();
+
+            const email = document.getElementById("email")
+                .value.trim();
+
+
+            // VALIDATION
+
+            if (name.length < 2) {
+
+                showError("Please enter your full name.");
+
+                return;
+
+            }
+
+            if (!Number.isInteger(age) || age < 13 || age > 120) {
+
+                showError("Please enter a valid age between 13 and 120.");
+
+                return;
+
+            }
+
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+
+                showError("Please enter a valid 10-digit Indian mobile number.");
+
+                return;
+
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+                showError("Please enter a valid email address.");
+
+                return;
+
+            }
+
+            if (password.value.length < 8) {
+
+                showError("Password must contain at least 8 characters.");
+
+                return;
+
+            }
+
+            if (password.value !== confirmPassword.value) {
+
+                showError("Passwords do not match. Please try again.");
+
+                return;
+
+            }
+
+            if (!document.getElementById("terms").checked) {
+
+                showError("Please accept the Terms and Conditions.");
+
+                return;
+
+            }
+
+
+            // SEND DATA TO DJANGO BACKEND
+
+            submitBtn.disabled = true;
+
+            submitBtn.textContent = "Creating Account...";
+
+
+            const userData = {
+
+                name: name,
+
+                age: age,
+
+                phone: phone,
+
+                email: email,
+
+                password: password.value,
+
+                confirm_password: confirmPassword.value,
+
+                terms_accepted: document.getElementById("terms").checked
+
+            };
+
+
+            try {
+
+                const response = await fetch(API_URL, {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json"
+
+                    },
+
+                    body: JSON.stringify(userData)
+
+                });
+
+
+                const result = await response.json()
+                    .catch(() => ({}));
+
+
+                if (!response.ok) {
+
+                    const message =
+                        result.message ||
+                        result.detail ||
+                        "Registration failed. Please check your details.";
+
+                    throw new Error(
+
+                        typeof message === "string"
+
+                            ? message
+
+                            : JSON.stringify(message)
+
+                    );
+
+                }
+
+
+                successMessage.textContent =
+                    "Account created successfully! Redirecting to login...";
+
+                successMessage.style.display = "block";
+
+
+                form.reset();
+
+                document.getElementById("strengthBar").style.width = "0";
+
+                document.getElementById("strengthText").textContent =
+                    "Use at least 8 characters with letters and numbers.";
+
+
+                setTimeout(function() {
+
+                    window.location.href = "learner-login.html";
+
+                }, 1800);
+
+
+            } catch (error) {
+
+                console.error("Registration error:", error);
+
+                showError(
+
+                    error.message.includes("Failed to fetch")
+
+                        ? "Unable to connect to the server. Check your backend and browser network connection."
+
+                        : error.message
+
+                );
+
+            } finally {
+
+                submitBtn.disabled = false;
+
+                submitBtn.textContent = "Create Learner Account →";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

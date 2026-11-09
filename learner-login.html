@@ -1,0 +1,888 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAIS | Learner Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blue: #1766e8;
+            --dark-blue: #10316c;
+            --text: #24385f;
+            --muted: #8290a8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f3f6ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1080px;
+            min-height: 650px;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 65px rgba(37, 75, 145, 0.12);
+        }
+
+        /* LEFT PANEL */
+
+        .left-panel {
+            background: linear-gradient(145deg, #0750bd, #287ef3);
+            padding: 45px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before,
+        .left-panel::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 50%;
+        }
+
+        .left-panel::before {
+            width: 380px;
+            height: 380px;
+            bottom: -180px;
+            left: -160px;
+        }
+
+        .left-panel::after {
+            width: 250px;
+            height: 250px;
+            top: 150px;
+            right: -130px;
+        }
+
+        .brand-logo {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-logo img {
+            width: 145px;
+            height: 65px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 2;
+            margin: 35px 0;
+        }
+
+        .small-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.16);
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .left-content h1 {
+            font-size: 39px;
+            line-height: 1.25;
+            margin: 24px 0 18px;
+            letter-spacing: -1.3px;
+        }
+
+        .left-content h1 span {
+            color: #b9d7ff;
+        }
+
+        .left-content p {
+            font-size: 13px;
+            line-height: 1.9;
+            color: #e1edff;
+        }
+
+        .benefits {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            gap: 18px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 12px;
+            color: #edf5ff;
+        }
+
+        .benefit-icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.17);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 17px;
+        }
+
+        .left-footer {
+            position: relative;
+            z-index: 2;
+            color: #d4e5ff;
+            font-size: 10px;
+        }
+
+        /* RIGHT PANEL */
+
+        .right-panel {
+            padding: 45px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-heading {
+            margin-bottom: 32px;
+        }
+
+        .welcome {
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .form-heading h2 {
+            font-size: 31px;
+            color: var(--dark-blue);
+            margin: 13px 0 10px;
+        }
+
+        .form-heading p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* FORM */
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 21px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .form-group label {
+            color: #31476e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 49px;
+            padding: 0 15px;
+            border: 1px solid #dfe7f3;
+            border-radius: 10px;
+            outline: none;
+            background: #fbfcff;
+            font-family: inherit;
+            font-size: 12px;
+            color: var(--text);
+            transition: 0.25s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(23,102,232,0.09);
+        }
+
+        .form-group input::placeholder {
+            color: #a5afc0;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* REMEMBER AND FORGOT PASSWORD */
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: -5px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #75839b;
+            font-size: 11px;
+        }
+
+        .remember input {
+            accent-color: var(--blue);
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* BUTTON */
+
+        .submit-btn {
+            width: 100%;
+            height: 51px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(110deg, #287bf3, #0750c6);
+            color: white;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(23,102,232,0.2);
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(23,102,232,0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #d93636;
+            background: #fff0f0;
+            border-radius: 9px;
+            padding: 11px;
+            font-size: 11px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .success-message {
+            color: #07865c;
+            background: #e8f9f1;
+            border-radius: 9px;
+            padding: 11px;
+            font-size: 11px;
+            display: none;
+        }
+
+        /* SIGNUP LINK */
+
+        .signup-link {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 11px;
+            color: #7e8ba2;
+        }
+
+        .signup-link a {
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: #8391a8;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .back-home a:hover {
+            color: var(--blue);
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 850px) {
+            .page-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 550px;
+            }
+
+            .left-panel {
+                min-height: 300px;
+                padding: 30px;
+            }
+
+            .left-content {
+                margin: 25px 0;
+            }
+
+            .left-content h1 {
+                font-size: 30px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .left-footer {
+                margin-top: 25px;
+            }
+
+            .right-panel {
+                padding: 40px 35px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .page-wrapper {
+                border-radius: 18px;
+            }
+
+            .left-panel {
+                padding: 25px;
+            }
+
+            .right-panel {
+                padding: 30px 22px;
+            }
+
+            .form-heading h2 {
+                font-size: 26px;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- LEFT PANEL -->
+
+        <section class="left-panel">
+
+            <a href="index.html" class="brand-logo">
+                <img src="assets/dais-logo.png" alt="DAIS Logo">
+            </a>
+
+            <div class="left-content">
+
+                <span class="small-tag">
+                    WELCOME BACK TO DAIS
+                </span>
+
+                <h1>
+                    Continue Your<br>
+                    <span>Learning Journey.</span>
+                </h1>
+
+                <p>
+                    Sign in to your personal learner account
+                    and continue exploring your purchased
+                    courses, learning materials and videos.
+                </p>
+
+            </div>
+
+            <div class="benefits">
+
+                <div class="benefit">
+                    <div class="benefit-icon">▶</div>
+                    <span>Continue learning anytime</span>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">🛡</div>
+                    <span>Secure access to purchased courses</span>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">✦</div>
+                    <span>Track your learning achievements</span>
+                </div>
+
+            </div>
+
+            <div class="left-footer">
+                © 2026 DAIS. All rights reserved.
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT LOGIN PANEL -->
+
+        <section class="right-panel">
+
+            <div class="form-heading">
+
+                <span class="welcome">LEARNER PORTAL</span>
+
+                <h2>Welcome Back!</h2>
+
+                <p>
+                    Please enter your registered email address
+                    and password to access your learner dashboard.
+                </p>
+
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form class="login-form" id="loginForm" novalidate>
+
+                <div class="form-group">
+
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your registered email"
+                        autocomplete="email"
+                        maxlength="254"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="togglePassword">
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
+                    <a href="forgot-password.html"
+                       class="forgot-password">
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
+
+
+                <p class="error-message" id="errorMessage"
+                   role="alert"></p>
+
+                <p class="success-message" id="successMessage"
+                   role="status"></p>
+
+
+                <button type="submit"
+                        class="submit-btn"
+                        id="submitBtn">
+
+                    Login to Dashboard →
+
+                </button>
+
+            </form>
+
+
+            <div class="signup-link">
+
+                Don't have an account?
+
+                <a href="learner-signup.html">
+                    Create Account
+                </a>
+
+            </div>
+
+
+            <div class="back-home">
+
+                <a href="index.html">← Back to Home</a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // DJANGO BACKEND API URL
+        // Connect this endpoint when Django authentication is ready.
+
+        const API_URL = "http://localhost:8000/api/learners/login/";
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const successMessage =
+            document.getElementById("successMessage");
+
+        const submitBtn =
+            document.getElementById("submitBtn");
+
+
+        // SHOW / HIDE PASSWORD
+
+        togglePassword.addEventListener("click", function() {
+
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+
+                togglePassword.textContent = "Hide";
+
+            } else {
+
+                passwordInput.type = "password";
+
+                togglePassword.textContent = "Show";
+
+            }
+
+        });
+
+
+        // DISPLAY ERROR
+
+        function showError(message) {
+
+            errorMessage.textContent = message;
+
+            errorMessage.style.display = "block";
+
+            successMessage.style.display = "none";
+
+        }
+
+
+        // GET CSRF TOKEN
+
+        function getCookie(name) {
+
+            const cookies = document.cookie.split(";");
+
+            for (let cookie of cookies) {
+
+                cookie = cookie.trim();
+
+                if (cookie.startsWith(name + "=")) {
+
+                    return decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
+
+                }
+
+            }
+
+            return "";
+
+        }
+
+
+        // LOGIN FORM SUBMISSION
+
+        loginForm.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            errorMessage.style.display = "none";
+
+            successMessage.style.display = "none";
+
+
+            const email = document.getElementById("email")
+                .value.trim();
+
+            const password = passwordInput.value;
+
+
+            // VALIDATION
+
+            if (!email) {
+
+                showError("Please enter your email address.");
+
+                return;
+
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+                showError("Please enter a valid email address.");
+
+                return;
+
+            }
+
+            if (!password) {
+
+                showError("Please enter your password.");
+
+                return;
+
+            }
+
+
+            // PREPARE LOGIN DATA
+
+            const loginData = {
+
+                email: email,
+
+                password: password
+
+            };
+
+
+            submitBtn.disabled = true;
+
+            submitBtn.textContent = "Signing In...";
+
+
+            try {
+                // GET CSRF COOKIE FROM DJANGO
+await fetch("http://localhost:8000/api/csrf/", {
+    method: "GET",
+    credentials: "include"
+});
+
+               const response = await fetch(API_URL, {
+    method: "POST",
+    credentials: "include",
+
+                    headers: {
+
+                        "Content-Type": "application/json",
+
+                        "X-CSRFToken": getCookie("csrftoken")
+
+                    },
+
+                    body: JSON.stringify(loginData)
+
+                });
+
+
+                const result = await response.json()
+                    .catch(() => ({}));
+
+
+                if (!response.ok) {
+
+                    const message =
+                        result.message ||
+                        result.detail ||
+                        "Invalid email or password.";
+
+                    throw new Error(
+                        typeof message === "string"
+                            ? message
+                            : JSON.stringify(message)
+                    );
+
+                }
+
+
+                // DO NOT STORE AUTHENTICATION TOKENS IN LOCAL STORAGE.
+                // SAVE LEARNER PROFILE FOR DASHBOARD
+sessionStorage.setItem("daisLearner", JSON.stringify({
+    name: result.name,
+    email: result.email,
+    learner_id: result.learner_id,
+    user_id: result.user_id,
+    tenant_id: result.tenant_id,
+    age: result.age
+}));
+                // Django should manage the authenticated session securely.
+
+                successMessage.textContent =
+                    "Login successful! Opening your dashboard...";
+
+                successMessage.style.display = "block";
+
+
+                setTimeout(function() {
+
+                    window.location.href = "learner-dashboard.html";
+
+                }, 1000);
+
+
+            } catch (error) {
+
+                showError(
+                    error.message.includes("Failed to fetch")
+                        ? "Unable to connect to the server. Please check whether Django is running."
+                        : error.message
+                );
+
+            } finally {
+
+                submitBtn.disabled = false;
+
+                submitBtn.textContent = "Login to Dashboard →";
+
+            }
+
+                });
+
+        // ==================================
+        // LOGIN PAGE BROWSER BACK PROTECTION
+        // ==================================
+
+        window.addEventListener("pageshow", function () {
+
+            // If the learner is logged out,
+            // make the login page return to index.html
+            if (!sessionStorage.getItem("daisLearner")) {
+
+                history.replaceState(null, "", "learner-login.html");
+
+                history.pushState(null, "", "learner-login.html");
+
+            }
+
+        });
+
+        window.addEventListener("popstate", function () {
+
+            if (!sessionStorage.getItem("daisLearner")) {
+
+                window.location.replace("index.html");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

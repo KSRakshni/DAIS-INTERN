@@ -1,0 +1,1662 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAIS | Tenant Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --primary: #315bea;
+    --primary-dark: #2448c9;
+    --background: #f5f7fc;
+    --sidebar: #ffffff;
+    --text: #202b45;
+    --muted: #8290a8;
+    --border: #e9edf5;
+    --green: #16a779;
+    --orange: #f2a33a;
+    --red: #e45d6b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 25px 17px;
+    position: fixed;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    margin-bottom: 35px;
+}
+
+.logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.logo span {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.tenant-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 0 13px;
+    margin-bottom: 12px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    color: #71809a;
+    font-size: 13px;
+    font-weight: 600;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+    transition: .2s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    color: var(--primary);
+    background: #edf2ff;
+}
+
+.nav-icon {
+    width: 21px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.tenant-profile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 15px 10px;
+    border-top: 1px solid var(--border);
+    margin-top: 15px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #e7edff;
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.tenant-profile h4 {
+    font-size: 12px;
+}
+
+.tenant-profile p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 30px 35px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.page-heading h1 {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.page-heading p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification {
+    width: 39px;
+    height: 39px;
+    border-radius: 11px;
+    background: white;
+    border: 1px solid var(--border);
+    font-size: 17px;
+}
+
+.top-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.top-user h4 {
+    font-size: 12px;
+}
+
+.top-user p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+/* PAGE SECTIONS */
+
+.page-section {
+    display: none;
+}
+
+.page-section.active {
+    display: block;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 17px;
+}
+
+.welcome-banner {
+    background: linear-gradient(110deg, #315bea, #6486f5);
+    border-radius: 17px;
+    padding: 28px 30px;
+    color: white;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.welcome-banner h2 {
+    font-size: 21px;
+    margin-bottom: 9px;
+}
+
+.welcome-banner p {
+    font-size: 12px;
+    opacity: .88;
+    line-height: 1.7;
+}
+
+.banner-tag {
+    background: rgba(255,255,255,.18);
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* STAT CARDS */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 17px;
+    margin-bottom: 27px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+}
+
+.blue { background: #edf2ff; }
+.green { background: #e6f8f1; }
+.orange { background: #fff4e5; }
+.purple { background: #f1eaff; }
+
+.stat-card h2 {
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.stat-card p {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* CHARTS */
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 18px;
+    margin-bottom: 27px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    min-width: 0;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.panel-header h3 {
+    font-size: 14px;
+}
+
+.panel-header span {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.chart-container {
+    height: 245px;
+    position: relative;
+}
+
+/* TABLE */
+
+.table-panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 25px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 570px;
+}
+
+th {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 16px 12px;
+    font-size: 11px;
+    border-bottom: 1px solid #f0f2f7;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.course-name {
+    font-weight: 700;
+}
+
+.course-sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.published {
+    background: #e5f8ef;
+    color: #159b6b;
+}
+
+.draft {
+    background: #fff2df;
+    color: #d48a22;
+}
+
+.action-btn {
+    background: #edf2ff;
+    color: var(--primary);
+    padding: 8px 11px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* COURSE MANAGEMENT */
+
+.page-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.course-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.course-cover {
+    height: 115px;
+    background: linear-gradient(120deg, #dce6ff, #a8bcff);
+    display: grid;
+    place-items: center;
+    font-size: 38px;
+}
+
+.course-content {
+    padding: 17px;
+}
+
+.course-content h3 {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.course-content p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 13px;
+}
+
+.course-numbers {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 13px;
+    margin-top: 12px;
+}
+
+.course-numbers div {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.course-numbers strong {
+    display: block;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+/* LEARNER REGISTRATIONS */
+
+.registration-list {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.registration-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.registration-row:last-child {
+    border-bottom: none;
+}
+
+.registration-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.registration-info h4 {
+    font-size: 12px;
+}
+
+.registration-info p {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.registration-date {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* SETTINGS */
+
+.settings-panel {
+    background: white;
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    max-width: 650px;
+}
+
+.settings-panel label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.settings-panel input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 18px;
+    outline: none;
+    font-size: 12px;
+}
+
+.settings-panel input:focus {
+    border-color: var(--primary);
+}
+
+/* MODAL */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,30,55,.45);
+    z-index: 30;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    width: 100%;
+    max-width: 430px;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.modal h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.modal label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 13px 0 7px;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    font-size: 12px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.secondary-btn {
+    background: #f0f2f7;
+    color: var(--text);
+    padding: 11px 15px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+/* MOBILE */
+
+.menu-toggle {
+    display: none;
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 12px;
+    border-radius: 8px;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px;
+    font-size: 12px;
+}
+
+@media(max-width:1100px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:800px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .3s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 22px 17px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .topbar {
+        gap: 12px;
+    }
+
+    .top-user {
+        display: none;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:550px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-card h2 {
+        font-size: 22px;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-banner {
+        padding: 21px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .page-heading h1 {
+        font-size: 19px;
+    }
+
+    .page-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <img src="assets/dais-logo.png" alt="DAIS Logo">
+        <span>TENANT PORTAL</span>
+    </div>
+
+    <div class="tenant-label">WORKSPACE</div>
+
+    <nav class="nav-menu">
+        <button class="nav-item active" onclick="showPage('overview',this)">
+            <span class="nav-icon">▦</span> Overview
+        </button>
+
+        <button class="nav-item" onclick="showPage('courses',this)">
+            <span class="nav-icon">▤</span> Courses
+        </button>
+
+        <button class="nav-item" onclick="showPage('learners',this)">
+            <span class="nav-icon">♙</span> Learners
+        </button>
+
+        <button class="nav-item" onclick="showPage('analytics',this)">
+            <span class="nav-icon">▥</span> Analytics
+        </button>
+
+        <button class="nav-item" onclick="showPage('settings',this)">
+            <span class="nav-icon">⚙</span> Settings
+        </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <button class="nav-item" onclick="logout()">
+            <span class="nav-icon">↪</span> Logout
+        </button>
+
+        <div class="tenant-profile">
+            <div class="avatar">AC</div>
+            <div>
+                <h4 id="sidebarTenantName">Alpha Company</h4>
+                <p>Tenant Administrator</p>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+        <div style="display:flex;align-items:center;gap:13px">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <div class="page-heading">
+                <h1 id="pageTitle">Dashboard Overview</h1>
+                <p>Manage your courses and view course-level reports.</p>
+            </div>
+        </div>
+
+        <div class="top-right">
+            <button class="notification" title="Notifications">♧</button>
+            <div class="top-user">
+                <div class="avatar">AC</div>
+                <div>
+                    <h4 id="topTenantName">Alpha Company</h4>
+                    <p>Tenant Admin</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section class="page-section active" id="overview">
+
+        <div class="welcome-banner">
+            <div>
+                <h2>Welcome to your workspace!</h2>
+                <p>Manage your learning courses, view registrations and<br>
+                understand your course performance from one place.</p>
+            </div>
+            <div class="banner-tag">DAIS Tenant Portal</div>
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <p>Total Courses</p>
+                    <div class="stat-icon blue">▤</div>
+                </div>
+                <h2 id="totalCourses">4</h2>
+                <p>Courses created in your workspace</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <p>Learner Registrations</p>
+                    <div class="stat-icon green">♙</div>
+                </div>
+                <h2 id="totalLearners">—</h2>
+                <p>Enrollment data not connected yet</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <p>Course Completions</p>
+                    <div class="stat-icon orange">✓</div>
+                </div>
+                <h2 id="totalCompleted">—</h2>
+                <p>Completion data not connected yet</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <p>Course Publishing</p>
+                    <div class="stat-icon purple">◉</div>
+                </div>
+                <h2 id="publishedCourses">—</h2>
+                <p>Publishing data not connected yet</p>
+            </div>
+
+        </div>
+
+        <div class="charts-grid">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Course Registrations</h3>
+                    <span>Course-wise comparison</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="registrationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Course Completion</h3>
+                    <span>Registered vs completed</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="completionChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="table-panel">
+            <div class="panel-header">
+                <h3>Course Overview</h3>
+                <button class="action-btn" onclick="showPage('courses')">View All Courses</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>COURSE NAME</th>
+                            <th>DESCRIPTION</th>
+                            <th>PRICE</th>
+                            <th>CREATED DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="overviewCourseTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- COURSES -->
+    <section class="page-section" id="courses">
+
+        <div class="page-toolbar">
+            <div>
+                <h2 class="section-title">Course Management</h2>
+                <p style="font-size:11px;color:var(--muted)">
+                    Create and manage courses in your workspace.
+                </p>
+            </div>
+
+            <button class="primary-btn" onclick="openCourseModal()">
+                + Add New Course
+            </button>
+        </div>
+
+        <div class="course-grid" id="courseGrid"></div>
+
+    </section>
+
+    <!-- LEARNERS -->
+    <section class="page-section" id="learners">
+
+        <h2 class="section-title">Learner Registrations</h2>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:20px">
+            View learner registrations for your courses.
+        </p>
+
+        <div class="registration-list" id="registrationList"></div>
+
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="page-section" id="analytics">
+
+        <h2 class="section-title">Course Analytics</h2>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:20px">
+            Compare registrations and completions across your courses.
+        </p>
+
+        <div class="charts-grid">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Registered Learners by Course</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="analyticsRegistrationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Completed Learners by Course</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="analyticsCompletionChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="table-panel">
+            <h3 style="font-size:14px;margin-bottom:15px">
+                Course Performance Summary
+            </h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>COURSE</th>
+                            <th>REGISTERED</th>
+                            <th>COMPLETED</th>
+                            <th>COMPLETION RATE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="analyticsTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page-section" id="settings">
+
+        <h2 class="section-title">Workspace Settings</h2>
+
+        <div class="settings-panel">
+            <h3 style="font-size:14px;margin-bottom:20px">Tenant Information</h3>
+
+            <label>Company / Tenant Name</label>
+            <input type="text" id="tenantNameInput" value="Alpha Company">
+
+            <label>Administrator Email</label>
+            <input type="email" id="tenantEmailInput" value="admin@alphacompany.com">
+
+            <label>Contact Number</label>
+            <input type="tel" id="tenantPhoneInput" value="9876543210">
+
+            <button class="primary-btn" onclick="saveSettings()">
+                Save Changes
+            </button>
+        </div>
+
+    </section>
+
+</main>
+</div>
+
+<!-- ADD COURSE MODAL -->
+<div class="modal-overlay" id="courseModal">
+    <div class="modal">
+
+        <h2>Add New Course</h2>
+
+        <form id="courseForm">
+
+            <label>Course Name</label>
+            <input type="text" id="courseName" placeholder="Enter course name" required>
+
+            <label>Course Category</label>
+            <select id="courseCategory" required>
+                <option value="">Loading categories...</option>
+            </select>
+
+            <label>Course Description</label>
+            <textarea id="courseDescription" placeholder="Enter course description"></textarea>
+
+            <label>Course Price (₹)</label>
+            <input type="number" id="coursePrice" placeholder="Enter course price" min="0" step="0.01">
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeCourseModal()">
+                    Cancel
+                </button>
+                <button type="submit" class="primary-btn">
+                    Add Course
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+
+// ----------------------------------
+// DEMO COURSE DATA
+// ----------------------------------
+
+let courses = [];
+
+const registrations = [
+    {
+        name: "Arun Kumar",
+        email: "arun@example.com",
+        course: "Introduction to Programming",
+        date: "02 Nov 2026"
+    },
+    {
+        name: "Priya S",
+        email: "priya@example.com",
+        course: "Data Science Fundamentals",
+        date: "01 Nov 2026"
+    },
+    {
+        name: "Rahul M",
+        email: "rahul@example.com",
+        course: "Artificial Intelligence",
+        date: "31 Oct 2026"
+    },
+    {
+        name: "Sneha R",
+        email: "sneha@example.com",
+        course: "Introduction to Programming",
+        date: "30 Oct 2026"
+    }
+];
+
+// ----------------------------------
+// NAVIGATION
+// ----------------------------------
+
+const pageTitles = {
+    overview: "Dashboard Overview",
+    courses: "Course Management",
+    learners: "Learner Registrations",
+    analytics: "Course Analytics",
+    settings: "Workspace Settings"
+};
+
+function showPage(page, button) {
+
+    document.querySelectorAll(".page-section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    } else {
+        const navButton = [...document.querySelectorAll(".nav-item")]
+            .find(item => item.getAttribute("onclick")?.includes("'" + page + "'"));
+
+        if (navButton) navButton.classList.add("active");
+    }
+
+    document.getElementById("pageTitle").textContent = pageTitles[page];
+
+    document.getElementById("sidebar").classList.remove("open");
+
+    if (page === "analytics") {
+        setTimeout(createAnalyticsCharts, 50);
+    }
+}
+
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+// ----------------------------------
+// DASHBOARD STATISTICS
+// ----------------------------------
+
+function updateStats() {
+    document.getElementById("totalCourses").textContent = courses.length;
+    document.getElementById("totalLearners").textContent = "—";
+    document.getElementById("totalCompleted").textContent = "—";
+    document.getElementById("publishedCourses").textContent = "—";
+}
+
+// ----------------------------------
+// COURSE TABLE
+// ----------------------------------
+
+function renderOverviewTable() {
+    const table = document.getElementById("overviewCourseTable");
+
+    if (!courses.length) {
+        table.innerHTML = '<tr><td colspan="4">No courses available yet.</td></tr>';
+        return;
+    }
+
+    table.innerHTML = courses.map(course => `
+        <tr>
+            <td>
+                <div class="course-name">${escapeHTML(course.name)}</div>
+                <div class="course-sub">${escapeHTML(course.category)}</div>
+            </td>
+            <td>${course.description ? escapeHTML(course.description) : "—"}</td>
+            <td>${course.price !== null && course.price !== "" ? "₹" + escapeHTML(String(course.price)) : "Not set"}</td>
+            <td>${escapeHTML(course.createdAt || "—")}</td>
+        </tr>
+    `).join("");
+}
+
+// ----------------------------------
+// COURSE CARDS
+// ----------------------------------
+
+function renderCourses() {
+    const grid = document.getElementById("courseGrid");
+
+    if (!courses.length) {
+        grid.innerHTML = '<div class="empty-state">No courses available yet.</div>';
+        return;
+    }
+
+    grid.innerHTML = courses.map((course, index) => `
+        <div class="course-card">
+            <div class="course-cover">📘</div>
+            <div class="course-content">
+                <h3>${escapeHTML(course.name)}</h3>
+                <p>${escapeHTML(course.category)}</p>
+                <p>${escapeHTML(course.description || "No description added.")}</p>
+                <div class="course-numbers">
+                    <div>
+                        <strong>${course.price !== null && course.price !== "" ? "₹" + escapeHTML(String(course.price)) : "Not set"}</strong>
+                        Course Price
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:15px">
+                    <button class="action-btn" onclick="deleteCourse(${index})">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join("");
+}
+
+// ----------------------------------
+// REGISTRATIONS
+// ----------------------------------
+
+function renderRegistrations() {
+
+    const list = document.getElementById("registrationList");
+
+    list.innerHTML = registrations.map((person, index) => `
+        <div class="registration-row">
+
+            <div class="registration-info">
+                <div class="avatar">${escapeHTML(person.name.charAt(0))}</div>
+
+                <div>
+                    <h4>${escapeHTML(person.name)}</h4>
+                    <p>${escapeHTML(person.email)} · ${escapeHTML(person.course)}</p>
+                </div>
+            </div>
+
+            <div class="registration-date">${escapeHTML(person.date)}</div>
+
+        </div>
+    `).join("");
+}
+
+// ----------------------------------
+// ANALYTICS TABLE
+// ----------------------------------
+
+function renderAnalyticsTable() {
+    document.getElementById("analyticsTable").innerHTML =
+        '<tr><td colspan="4" style="text-align:center;padding:25px;">Enrollment and completion data are not connected yet.</td></tr>';
+}
+
+// ----------------------------------
+// CHARTS
+// ----------------------------------
+
+let registrationChart;
+let completionChart;
+let analyticsRegistrationChart;
+let analyticsCompletionChart;
+
+function getChartLabels() {
+    return courses.map(course => course.name);
+}
+
+function createDashboardCharts() {
+
+    const labels = getChartLabels();
+
+    if (registrationChart) registrationChart.destroy();
+    if (completionChart) completionChart.destroy();
+
+    registrationChart = new Chart(
+        document.getElementById("registrationChart"),
+        {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [{
+                    label: "Registered Learners",
+                    data: courses.map(course => course.registered),
+                    backgroundColor: "#5578ef",
+                    borderRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { precision: 0 }
+                    }
+                }
+            }
+        }
+    );
+
+    completionChart = new Chart(
+        document.getElementById("completionChart"),
+        {
+            type: "doughnut",
+            data: {
+                labels: ["Completed", "Not Completed"],
+                datasets: [{
+                    data: [
+                        courses.reduce((sum, c) => sum + c.completed, 0),
+                        courses.reduce((sum, c) => sum + c.registered - c.completed, 0)
+                    ],
+                    backgroundColor: ["#315bea", "#e9edf5"],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: { boxWidth: 10, font: { size: 10 } }
+                    }
+                }
+            }
+        }
+    );
+}
+
+function createAnalyticsCharts() {
+
+    const labels = getChartLabels();
+
+    if (analyticsRegistrationChart) analyticsRegistrationChart.destroy();
+    if (analyticsCompletionChart) analyticsCompletionChart.destroy();
+
+    analyticsRegistrationChart = new Chart(
+        document.getElementById("analyticsRegistrationChart"),
+        {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [{
+                    label: "Registered",
+                    data: courses.map(c => c.registered),
+                    backgroundColor: "#5578ef",
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { precision: 0 } }
+                }
+            }
+        }
+    );
+
+    analyticsCompletionChart = new Chart(
+        document.getElementById("analyticsCompletionChart"),
+        {
+            type: "bar",
+            data: {
+                labels,
+                datasets: [{
+                    label: "Completed",
+                    data: courses.map(c => c.completed),
+                    backgroundColor: "#19ae81",
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { precision: 0 } }
+                }
+            }
+        }
+    );
+}
+
+// ----------------------------------
+// ADD COURSE
+// ----------------------------------
+
+function openCourseModal() {
+    document.getElementById("courseModal").classList.add("show");
+}
+
+function closeCourseModal() {
+    document.getElementById("courseModal").classList.remove("show");
+}
+
+document.getElementById("courseForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("courseName").value.trim();
+    const category = document.getElementById("courseCategory").value;
+    const description = document.getElementById("courseDescription").value.trim();
+    const price = document.getElementById("coursePrice").value;
+
+    if (!name || !category) {
+        alert("Please enter a course name and select a category.");
+        return;
+    }
+
+    try {
+        const response = await fetch(TENANT_API + "courses/", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getDashboardCookie("csrftoken")
+            },
+            body: JSON.stringify({
+                course_name: name,
+                sub_channel_id: category,
+                description: description,
+                price: price
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Unable to save course.");
+        }
+
+        this.reset();
+        closeCourseModal();
+        await loadTenantCourses();
+        alert("Course saved successfully!");
+
+    } catch (error) {
+        console.error("Course save error:", error);
+        alert(error.message);
+    }
+});
+
+// ----------------------------------
+// PUBLISH / DELETE
+// ----------------------------------
+
+function toggleCourseStatus(index) {
+
+    courses[index].status =
+        courses[index].status === "Published" ? "Draft" : "Published";
+
+    refreshDashboard();
+}
+
+async function deleteCourse(index) {
+    const course = courses[index];
+
+    if (!course || !confirm("Are you sure you want to delete this course?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(TENANT_API + "courses/", {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getDashboardCookie("csrftoken")
+            },
+            body: JSON.stringify({
+                course_id: course.id
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Unable to delete course.");
+        }
+
+        await loadTenantCourses();
+        alert("Course deleted successfully!");
+
+    } catch (error) {
+        console.error("Course deletion error:", error);
+        alert(error.message);
+    }
+}
+
+// ----------------------------------
+// SETTINGS
+// ----------------------------------
+
+function saveSettings() {
+
+    const name = document.getElementById("tenantNameInput").value.trim();
+
+    if (!name) {
+        alert("Please enter a tenant name.");
+        return;
+    }
+
+    document.getElementById("sidebarTenantName").textContent = name;
+    document.getElementById("topTenantName").textContent = name;
+
+    alert("Workspace settings updated in this demo.");
+}
+
+// ----------------------------------
+// LOGOUT
+// ----------------------------------
+
+function logout() {
+
+    if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "tenant-login.html";
+    }
+}
+
+// ----------------------------------
+// SAFE HTML DISPLAY
+// ----------------------------------
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+// ----------------------------------
+// REFRESH ALL DASHBOARD SECTIONS
+// ----------------------------------
+
+function refreshDashboard() {
+
+    updateStats();
+    renderOverviewTable();
+    renderCourses();
+    renderAnalyticsTable();
+
+    if (registrationChart || completionChart) {
+        createDashboardCharts();
+    }
+
+    if (analyticsRegistrationChart || analyticsCompletionChart) {
+        createAnalyticsCharts();
+    }
+}
+
+// ----------------------------------
+// TENANT CATEGORY API
+const TENANT_API = "http" + "://" + "localhost:8000/api/tenant/";
+
+function getDashboardCookie(name) {
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + "=")) {
+            return decodeURIComponent(cookie.substring(name.length + 1));
+        }
+    }
+    return "";
+}
+
+async function loadTenantCategories() {
+    const dropdown = document.getElementById("courseCategory");
+
+    try {
+        const response = await fetch(TENANT_API + "categories/", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "X-CSRFToken": getDashboardCookie("csrftoken")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Unable to load categories. Status: " + response.status);
+        }
+
+        const categories = await response.json();
+
+        dropdown.innerHTML = '<option value="">Select a category</option>';
+
+        categories.forEach(category => {
+            const option = document.createElement("option");
+            option.value = category.sub_channel_id;
+            option.textContent = category.sub_channel_name;
+            dropdown.appendChild(option);
+        });
+
+        if (categories.length === 0) {
+            dropdown.innerHTML = '<option value="">No categories available</option>';
+        }
+
+        console.log("Tenant categories loaded:", categories);
+
+    } catch (error) {
+        console.error("Category loading error:", error);
+        dropdown.innerHTML = '<option value="">Could not load categories</option>';
+    }
+}
+
+
+async function loadTenantCourses() {
+    try {
+        const response = await fetch(TENANT_API + "courses/", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "X-CSRFToken": getDashboardCookie("csrftoken")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Unable to load courses. Status: " + response.status);
+        }
+
+        const data = await response.json();
+
+        courses = data.map(course => ({
+            id: course.course_id,
+            name: course.course_name,
+            category: course.category || "Uncategorized",
+            description: course.description || "",
+            price: course.price,
+            createdAt: course.created_at ? course.created_at.split("T")[0] : "",
+            registered: 0,
+            completed: 0,
+            status: "Available",
+            icon: "📘"
+        }));
+
+        refreshDashboard();
+        console.log("Tenant courses loaded:", courses);
+
+    } catch (error) {
+        console.error("Course loading error:", error);
+        alert("Could not load courses from the server. Please log in again and refresh.");
+    }
+}
+
+// INITIALIZE
+// ----------------------------------
+
+loadTenantCategories();
+loadTenantCourses();
+updateStats();
+renderOverviewTable();
+renderCourses();
+renderRegistrations();
+renderAnalyticsTable();
+createDashboardCharts();
+
+</script>
+
+</body>
+</html>

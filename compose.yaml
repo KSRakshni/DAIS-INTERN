@@ -1,0 +1,30 @@
+
+services:
+  dias-frontend:
+    build: .
+    container_name: dias-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  database:
+    image: postgres:18
+    container_name: dias-database
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:5435:5432"
+    volumes:
+      - dais_postgres18_data:/var/lib/postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  dais_postgres18_data:
+    external: true

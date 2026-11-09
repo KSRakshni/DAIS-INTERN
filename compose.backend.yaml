@@ -1,0 +1,14 @@
+services:
+  dais-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dais-backend
+    env_file:
+      - ./.env
+      - ./backend/.env.docker
+    ports:
+      - "127.0.0.1:8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
